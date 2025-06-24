@@ -1,0 +1,21 @@
+These constraints are related together through hierarchical relationships. If a constraint implies one or more other constraints only the stronger (highest level) should be present in the final constraint list, so if for example if int he extracted list of constraints appear A, B and C but A implies B and B implies C then only A should be present in the final version of the constraints.+
+Here follows all the implications:
+- Chain-Succession implies Chain-Response 
+- Chain-Response implies Alternate-Response
+- Alternate-Response implies Response
+- Response implies Responded-Existence
+- Chain-Succession implies Chain-Precedence
+- Chain-Precedence implies Alternate-Precedence
+- Alternate-Precedence implies Precedence
+- Chain-Succession implies Alternate-Succession
+- Alternate-Succession implies Succession
+- Succession implies Co-Existence
+- Co-Existence implies Responded-Existence
+- Succession implies Response
+- Succession implies Precedence
+- Alternate-Succession implies Alternate-Response
+- Alternate-Succession implies Alternate-Precedence
+- Init implies Precedence
+- Exclusive-Choice implies Choice
+- Not-Exclusive-Choice implies Not-Succession
+- Not-Succession implies Not-Chain-Succession
