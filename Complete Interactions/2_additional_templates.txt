@@ -1,0 +1,3332 @@
+Microsoft Windows [Versione 10.0.26100.4061]
+(c) Microsoft Corporation. Tutti i diritti riservati.
+
+C:\Users\irene>cd C:\Users\irene\Personale\unibz\Thesis\Thesis-Repository
+
+C:\Users\irene\Personale\unibz\Thesis\Thesis-Repository>set GROQ_API_KEY=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
+
+C:\Users\irene\Personale\unibz\Thesis\Thesis-Repository>python dataset_analysis.py
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The MPON sents the dismissal to the MPOO. The MPOO reviews the dismissal. The MPOO opposes the dismissal of MPON or the MPOO confirmes the dismissal of the MPON..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities involved:
+
+- MPON sends dismissal
+- MPOO reviews dismissal
+- MPOO opposes dismissal
+- MPOO confirms dismissal
+
+Activities: sends_dismissal, reviews_dismissal, opposes_dismissal, confirms_dismissal
+
+From the description, we can derive the following steps and constraints:
+
+1. **MPON sends the dismissal to the MPOO**: This implies that "sends_dismissal" must occur first.
+
+2. **The MPOO reviews the dismissal**: After "sends_dismissal", "reviews_dismissal" must occur.
+
+3. **The MPOO opposes the dismissal of MPON or the MPOO confirms the dismissal of the MPON**: This means after "reviews_dismissal", either "opposes_dismissal" or "confirms_dismissal" must occur.
+
+Based on these steps, we can formulate the following declarative constraints:
+
+- **Init(sends_dismissal)**: The process starts with MPON sending the dismissal.
+- **response(sends_dismissal, reviews_dismissal)**: If MPON sends the dismissal, then MPOO reviews the dismissal.
+- **exclusive-choice(opposes_dismissal, confirms_dismissal)**: After reviewing, MPOO either opposes or confirms the dismissal, but not both.
+
+**Final Formal Declarative Constraints:**
+Init(sends_dismissal)
+response(sends_dismissal, reviews_dismissal)
+exclusive-choice(opposes_dismissal, confirms_dismissal)
+succession(reviews_dismissal, opposes_dismissal)
+succession(reviews_dismissal, confirms_dismissal)
+
+**Activities: sends_dismissal, reviews_dismissal, opposes_dismissal, confirms_dismissal**
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The EC tells the INQ about the change of his master data. The INQ notifies the IP of the change. The IP checks whether the master data can be changed at the desired time. The IP confirmes the changes of the INQ or the IP rejectes the changes of the INQ..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities involved:
+
+- EC tells INQ about the change of his master data: EC informs INQ
+- INQ notifies IP of the change: INQ notifies IP
+- IP checks whether the master data can be changed: IP checks
+- IP confirms or rejects the changes: IP confirms or IP rejects
+
+Activities: EC informs INQ, INQ notifies IP, IP checks, IP confirms, IP rejects
+
+From the description, we can derive the following sequence of events:
+
+1. EC informs INQ
+2. INQ notifies IP
+3. IP checks
+4. IP confirms or IP rejects
+
+This implies that:
+
+- EC informs INQ must happen before INQ notifies IP.
+- INQ notifies IP must happen before IP checks.
+- IP checks must happen before IP confirms or IP rejects.
+
+Based on the given constraint templates, here are the declarative constraints:
+
+- precedence(EC informs INQ, INQ notifies IP)
+- precedence(INQ notifies IP, IP checks)
+- response(IP checks, IP confirms)
+- response(IP checks, IP rejects)
+- not-co-existence(IP confirms, IP rejects)
+
+However, given that "response" template implies if A then B, and here we see IP checks leads to either confirm or reject but not both, a more accurate representation might consider the exclusive choice between confirmation and rejection:
+
+- exclusive-choice(IP confirms, IP rejects)
+
+But to capture the essence that after checking, either confirmation or rejection happens:
+
+- succession(IP checks, IP confirms)
+- succession(IP checks, IP rejects)
+
+Yet, for clarity and precision in capturing the process logic provided:
+
+Final Formal Declarative Constraints:
+precedence(EC informs INQ, INQ notifies IP)
+precedence(INQ notifies IP, IP checks)
+succession(IP checks, IP confirms)
+succession(IP checks, IP rejects)
+exclusive-choice(IP confirms, IP rejects)
+
+Activities: EC informs INQ, INQ notifies IP, IP checks, IP confirms, IP rejects
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   A customer brings in a defective computer and the CRS checks the defect and hands out a repair cost calculation back. If the customer decides that the costs are acceptable, the process continues, otherwise she takes her computer home unrepaired. The ongoing repair consists of two activities, which are executed, in an arbitrary order. The first activity is to check and repair the hardware, whereas the second activity checks and configures the software. After each of these activities, the proper system functionality is tested. If an error is detected another arbitrary repair activity is executed, otherwise the repair is finished..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- The customer brings in a defective computer: This can be considered as an initial step, let's call it "defective_computer_submission".
+- The CRS checks the defect and hands out a repair cost calculation: "repair_cost_calculation".
+- The customer decides if the costs are acceptable: This decision can be represented by two activities, "acceptable_cost_decision" and "unacceptable_cost_decision".
+- The ongoing repair consists of two activities:
+  - Check and repair the hardware: "hardware_repair".
+  - Check and configure the software: "software_configuration".
+- Test the proper system functionality: "functionality_test".
+- If an error is detected, another arbitrary repair activity is executed.
+
+Based on the description, here are the declarative constraints:
+
+## Temporary Declarative Constraints
+
+- succession(repair_cost_calculation, acceptable_cost_decision)
+- succession(repair_cost_calculation, unacceptable_cost_decision)
+- not-succession(unacceptable_cost_decision, hardware_repair)
+- not-succession(unacceptable_cost_decision, software_configuration)
+- response(acceptable_cost_decision, hardware_repair)
+- response(acceptable_cost_decision, software_configuration)
+- not-co-existence(hardware_repair, software_configuration)
+- succession(hardware_repair, functionality_test)
+- succession(software_configuration, functionality_test)
+- response(functionality_test, hardware_repair) // if functionality test fails, it leads to another repair activity, which could be hardware repair
+- response(functionality_test, software_configuration) // similarly, it could lead to software configuration
+
+However, to accurately reflect the process and given constraints, let's refine and formalize:
+
+## Final Formal Declarative Constraints
+
+- existence(repair_cost_calculation)
+- choice(acceptable_cost_decision, unacceptable_cost_decision)
+- exclusive-choice(acceptable_cost_decision, unacceptable_cost_decision)
+- response(acceptable_cost_decision, hardware_repair)
+- response(acceptable_cost_decision, software_configuration)
+- not-co-existence(hardware_repair, software_configuration)
+- succession(hardware_repair, functionality_test)
+- succession(software_configuration, functionality_test)
+- not-response(functionality_test, unacceptable_cost_decision)
+- alternate-response(hardware_repair, functionality_test)
+- alternate-response(software_configuration, functionality_test)
+
+Activities: defective_computer_submission, repair_cost_calculation, acceptable_cost_decision, unacceptable_cost_decision, hardware_repair, software_configuration, functionality_test
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The MPON reports the meter operation to the GO. The GO examines the application of the MPON. The GO rejects the application of the MPON or the GO confirmes the application of the MPON. The GO informs the MPOO about the registration confirmation of the MPON. The GO informs the MSPO about the registration confirmation of the MPON. The MPON and the MPOO perform the equipment acquisition and / or equipment changes. The MPON informs the GO about the failure of the entire process or the MPON informs the GO about the successful completion of the entire process. The GO informs the MPON about the failure of the overall transaction by deadline if after a maximum time limit no message of the MPON is present at the GO.If the MPON informs the GO about the failure of the entire process, the GO confirms the failure of the assignment to the MPON. If the MPON informs the GO about the successful completion of the overall process, the GO assigns the MPON. The GO confirms the assignment to the MPON. The GO informs the MPOO about the failure of the assignment of the MPON or the GO informs the MPOO about the assignment of the MPON. The GO informs the MSPO about the failure of the assignment of the MPON or the GO informs the MSPO about the assignment of the MPON. The GO informs the SP about the assignment of the MPON..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities involved:
+
+- MPON reports the meter operation to the GO
+- GO examines the application of the MPON
+- GO rejects the application of the MPON
+- GO confirms the application of the MPON
+- GO informs the MPOO about the registration confirmation of the MPON
+- GO informs the MSPO about the registration confirmation of the MPON
+- MPON and MPOO perform equipment acquisition and/or equipment changes
+- MPON informs the GO about the failure of the entire process
+- MPON informs the GO about the successful completion of the entire process
+- GO informs the MPON about the failure of the overall transaction by deadline
+- GO confirms the failure of the assignment to the MPON
+- GO assigns the MPON
+- GO confirms the assignment to the MPON
+- GO informs the MPOO about the failure of the assignment of the MPON
+- GO informs the MPOO about the assignment of the MPON
+- GO informs the MSPO about the failure of the assignment of the MPON
+- GO informs the MSPO about the assignment of the MPON
+- GO informs the SP about the assignment of the MPON
+
+Activities: reports_meter_operation, examines_application, rejects_application, confirms_application, informs_MPOO_registration, informs_MSPO_registration, performs_equipment_acquisition, informs_GO_failure, informs_GO_success, informs_MPNO_failure_by_deadline, confirms_failure_assignment, assigns_MPON, confirms_assignment, informs_MPOO_failure_assignment, informs_MPOO_assignment, informs_MSPO_failure_assignment, informs_MSPO_assignment, informs_SP_assignment
+
+Based on the process description, here are the declarative constraints:
+
+```
+Final Formal Declarative Constraints:
+response(reports_meter_operation, examines_application)
+response(examines_application, confirms_application)
+response(examines_application, rejects_application)
+not-co-existence(confirms_application, rejects_application)
+response(confirms_application, informs_MPOO_registration)
+response(confirms_application, informs_MSPO_registration)
+response(informs_MPOO_registration, performs_equipment_acquisition)
+response(informs_MSPO_registration, performs_equipment_acquisition)
+succession(informs_GO_failure, confirms_failure_assignment)
+succession(informs_GO_success, assigns_MPON)
+response(assigns_MPON, confirms_assignment)
+not-succession(confirms_application, informs_MPNO_failure_by_deadline)
+not-response(informs_MPNO_failure_by_deadline, confirms_failure_assignment)
+response(informs_GO_failure, informs_MPOO_failure_assignment)
+response(informs_GO_failure, informs_MSPO_failure_assignment)
+response(informs_GO_success, informs_MPOO_assignment)
+response(informs_GO_success, informs_MSPO_assignment)
+response(assigns_MPON, informs_SP_assignment)
+```
+
+This set of constraints aims to capture the essential flow and relationships between activities as described in the process. Note that some constraints might be implied or derivable from others, but they are listed here based on direct references and successions in the provided text.
+
+Please review and let me know if you need further adjustments or clarifications.
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   Whenever a company makes the decision to go public, its first task is to select the underwriters. Underwriters act as financial midwives to a new issue. Usually they play a triple role : First they provide the company with procedural and financial advice, then they buy the issue, and finally they resell it to the public. Established underwriters are careful of their reputation and will not handle a new issue unless they believe the facts have been presented fairly. Thus, in addition to handling the sale of a company ’ s issue, the underwriters in effect give their seal of approval to it. They prepare a registration statement for the approval of the Securities and Exchange Commission (SEC). In addition to registering the issue with the SEC, they need to check that the issue complies with the so-called blue-sky laws of each state that regulate sales of securities within the state. While the registration statement is awaiting approval, underwriters begin to firm up the issue price. They arrange a road show to talk to potential investors. Immediately after they receive clearance from the SEC, underwriters fix the issue price. After that they enter into a firm commitment to buy the stock and then offer it to the public, when they haven ’ t still found any reason not to do it..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the key activitiesmentioned:
+
+- select underwriters
+- provide advice
+- buy issue
+- resell issue
+- prepare registration statement
+- register with SEC
+- check blue-sky laws
+- firm up issue price
+- arrange road show
+- receive clearance from SEC
+- fix issue price
+- enter firm commitment
+- offer to public
+
+Based on the description, we can derive the following declarative constraints:
+
+1. **Init(select underwriters)**: The process starts with selecting underwriters.
+2. **succession(select underwriters, prepare registration statement)**: After selecting underwriters, preparing a registration statement occurs.
+3. **response(register with SEC, check blue-sky laws)**: Registering with the SEC implies checking blue-sky laws.
+4. **precedence(receive clearance from SEC, fix issue price)**: Fixing the issue price occurs only after receiving clearance from the SEC.
+5. **succession(fix issue price, enter firm commitment)**: Fixing the issue price is followed by entering into a firm commitment to buy the stock.
+6. **not-co-existence(enter firm commitment, offer to public)**: Entering a firm commitment and offering to the public do not occur together but in sequence.
+7. **chain-succession(prepare registration statement, register with SEC)**: Preparing a registration statement is immediately followed by registering with the SEC.
+8. **chain-response(arrange road show, firm up issue price)**: Arranging a road show is immediately followed by firmingup the issue price.
+
+**Activities: select underwriters, provide advice, buy issue, resell issue, prepare registration statement, register with SEC, check blue-sky laws, firm up issue price, arrange road show, receive clearance from SEC, fix issue price, enter firm commitment, offer to public**
+
+**Final Formal Declarative Constraints:**
+- Init(select underwriters)
+- succession(select underwriters, prepare registration statement)
+- response(register with SEC, check blue-sky laws)
+- precedence(receive clearance from SEC, fix issue price)
+- succession(fix issue price, enter firm commitment)
+- chain-succession(prepare registration statement, register with SEC)
+- chain-response(arrange road show, firm up issue price)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The process starts when a customer submits a claim by sending in relevant documentation. The Notification departmentat the car insurer checks the documents upon completeness and registers the claim. Then, the Handling department picks up the claim and checks the insurance. Then, an assessment is performed. If the assessment is positive, a garage is phoned to authorise the repairs and the payment is scheduled (in this order). Otherwise, the claim is rejected. In any case (whether the outcome is positive or negative), a letter is sent to the customer and the process is considered to be complete..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- submit_claim
+- check_documents
+- register_claim
+- pick_up_claim
+- check_insurance
+- perform_assessment
+- phone_garage
+- schedule_payment
+- send_letter
+- reject_claim
+
+## Step 1: Identify the sequence of activities
+The process starts with a customer submitting a claim, which implies that "submit_claim" must occur first.
+
+## 2: Determine the initial activity
+The process begins with "submit_claim", so we have an initial constraint: Init(submit_claim).
+
+## 3: Analyze the sequence and dependencies
+- After submitting a claim, the documents are checked and the claim is registered, implying a sequence: submit_claim ->check_documents -> register_claim.
+- Then, the claim is picked up, and insurance is checked: register_claim -> pick_up_claim -> check_insurance.
+- An assessment is performed after checking insurance: check_insurance -> perform_assessment.
+
+## 4: Identify conditional paths
+- If the assessment is positive, then a garage is phoned, and payment is scheduled: perform_assessment -> phone_garage -> schedule_payment.
+- If the assessment is negative, the claim is rejected: perform_assessment -> reject_claim.
+
+## 5: Determine common activities
+- Regardless of the assessment outcome, a letter is sent to the customer: This implies that "send_letter" must occur after both the positive and negative paths.
+
+## 6: Formulate declarative constraints
+Based on the process description:
+1. Init(submit_claim)
+2. succession(submit_claim, check_documents)
+3. succession(check_documents, register_claim)
+4. succession(register_claim, pick_up_claim)
+5. succession(pick_up_claim, check_insurance)
+6. succession(check_insurance, perform_assessment)
+7. response(perform_assessment, phone_garage)
+8. succession(perform_assessment, reject_claim) is not directly stated but we know:
+9. not-succession(perform_assessment, reject_claim) and
+10. response(perform_assessment, schedule_payment) given the positive assessment path.
+11. existence(send_letter)
+
+## 7: Further refinement
+- Given that a letter is sent in any case: existence(send_letter).
+- The activities have specific sequences and some are conditional.
+
+## 8: Specify constraints
+Final Formal Declarative Constraints:
+Init(submit_claim)
+succession(submit_claim, check_documents)
+succession(check_documents, register_claim)
+succession(register_claim, pick_up_claim)
+succession(pick_up_claim, check_insurance)
+succession(check_insurance, perform_assessment)
+response(perform_assessment, phone_garage)
+response(perform_assessment, schedule_payment)
+not-co-existence(phone_garage, reject_claim)
+not-co-existence(schedule_payment, reject_claim)
+existence(send_letter)
+not-response(reject_claim, send_letter)
+succession(reject_claim, send_letter)
+succession(phone_garage, send_letter)
+succession(schedule_payment, send_letter)
+
+Activities: submit_claim, check_documents, register_claim, pick_up_claim, check_insurance, perform_assessment, phone_garage, schedule_payment, send_letter, reject_claim
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The MPON notifies the MPOO about equipment change intentions. The MPOO announces self dismounting to the MPON or theMPOO shall notify the MPON about no self-dismounting of the MPOO. The MPON or the MPOO perform the final reading. The MPON or the MPOO dismount the old equipment. The MPON mounts the new device. The MPON reads the meter count from the installed meter. The MPON sents the values of the final reading to the GO. The MPON tells the GO about the device changes, the master data and the meter count at installation. The GO shall notify the MSP about the device changes, the master data, the meter count at dismounting, and the meter count at installation..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- notify_equipment_change_intentions (MPON notifies the MPOO about equipment change intentions)
+- announce_self_dismounting (MPOO announces self dismounting to the MPON)
+- notify_no_self_dismounting (MPOO shall notify the MPON about no self-dismounting of the MPOO)
+- perform_final_reading (MPON or the MPOO perform the final reading)
+- dismount_old_equipment (MPON or the MPOO dismount the old equipment)
+- mount_new_device (MPON mounts the new device)
+- read_meter_count (MPON reads the meter count from the installed meter)
+- send_final_reading_values (MPON sents the values of the final reading to the GO)
+- notify_device_changes (MPON tells the GO about the device changes, the master data and the meter count at installation)
+- notify_device_changes_to_MSP (GO shall notify the MSP about the device changes, the master data, the meter count at dismounting, and the meter count at installation)
+
+Given the process description, here are the declarative constraints:
+
+1. **succession(notify_equipment_change_intentions, announce_self_dismounting)**: If notify_equipment_change_intentionsoccurs, then announce_self_dismounting must occur after it.
+2. **succession(notify_equipment_change_intentions, notify_no_self_dismounting)**: If notify_equipment_change_intentions occurs, then notify_no_self_dismounting can occur.
+3. **precedence(perform_final_reading, dismount_old_equipment)**: dismount_old_equipment occurs only if preceded by perform_final_reading.
+4. **response(perform_final_reading, dismount_old_equipment)**: If perform_final_reading occurs, then dismount_old_equipment occurs after it.
+5. **response(dismount_old_equipment, mount_new_device)**: If dismount_old_equipment occurs, then mount_new_device occurs after it.
+6. **response(mount_new_device, read_meter_count)**: If mount_new_device occurs, then read_meter_count occurs after it.
+7. **response(read_meter_count, send_final_reading_values)**: If read_meter_count occurs, then send_final_reading_values occurs after it.
+8. **response(send_final_reading_values, notify_device_changes)**: If send_final_reading_values occurs, then notify_device_changes occurs after it.
+9. **response(notify_device_changes, notify_device_changes_to_MSP)**: If notify_device_changes occurs, then notify_device_changes_to_MSP occurs after it.
+
+**Activities: notify_equipment_change_intentions, announce_self_dismounting, notify_no_self_dismounting, perform_final_reading, dismount_old_equipment, mount_new_device, read_meter_count, send_final_reading_values, notify_device_changes, notify_device_changes_to_MSP**
+
+**Final Formal Declarative Constraints:**
+
+- succession(notify_equipment_change_intentions, announce_self_dismounting)
+- succession(notify_equipment_change_intentions, notify_no_self_dismounting)
+- precedence(perform_final_reading, dismount_old_equipment)
+- response(perform_final_reading, dismount_old_equipment)
+- response(dismount_old_equipment, mount_new_device)
+- response(mount_new_device, read_meter_count)
+- response(read_meter_count, send_final_reading_values)
+- response(send_final_reading_values, notify_device_changes)
+- response(notify_device_changes, notify_device_changes_to_MSP)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The MSPN registers the measurement at the GO. The GO examines the application of the MSPN. The GO rejects the application of the MSPN or the GO confirmes the application of the MSPN. The GO assigns the MSPN. The GO informs the MSPO about the assignment of MSPN. The GO informs the MPO about the assignment of the MSPN. The GO informs the SP about the assignment of MSPN..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- MSPN registers the measurement at the GO
+- GO examines the application of the MSPN
+- GO rejects the application of the MSPN
+- GO confirms the application of the MSPN
+- GO assigns the MSPN
+- GO informs the MSPO about the assignment of MSPN
+- GO informs the MPO about the assignment of the MSPN
+- GO informs the SP about the assignment of MSPN
+
+Activities: registers_measurement, examines_application, rejects_application, confirms_application, assigns_MSNP, informs_MSPO, informs_MPO, informs_SP
+
+From the description, we can derive the following sequence of events:
+
+1. The process starts with MSPN registering the measurement at the GO.
+2. The GO examines the application.
+3. The GO either rejects or confirms the application.
+4. After confirmation, the GO assigns the MSPN.
+5. After assignment, the GO informs MSPO, MPO, and SP about the assignment.
+
+Based on this sequence, we can infer some constraints:
+
+- The process starts with "registers_measurement" (Init(registers_measurement)).
+- "examines_application" must occur after "registers_measurement" and before either "rejects_application" or "confirms_application" (precedence(registers_measurement, examines_application) and not-succession(examines_application, registers_measurement) is not directly applicable but implies sequence).
+- "rejects_application" and "confirms_application" are exclusive choices after examination (exclusive-choice(rejects_application, confirms_application)).
+- "assigns_MSNP" occurs after "confirms_application" (response(confirms_application, assigns_MSNP)).
+- "informs_MSPO", "informs_MPO", and "informs_SP" occur after "assigns_MSNP" (response(assigns_MSNP, informs_MSPO), response(assigns_MSNP, informs_MPO), response(assigns_MSNP, informs_SP)).
+
+However, directly mapping to given templates and maintaining simplicity:
+
+Final Formal Declarative Constraints:
+Init(registers_measurement)
+precedence(registers_measurement, examines_application)
+exclusive-choice(rejects_application, confirms_application)
+response(confirms_application, assigns_MSNP)
+response(assigns_MSNP, informs_MSPO)
+response(assigns_MSNP, informs_MPO)
+response(assigns_MSNP, informs_SP)
+not-co-existence(rejects_application, confirms_application)
+
+Activities: registers_measurement, examines_application, rejects_application, confirms_application, assigns_MSNP, informs_MSPO, informs_MPO, informs_SP
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   Every weekday morning, the database is backed up and then it is checked to see whether the Account Defaulter table has new records. If no new records are found, then the process should check the CRM system to see whether new returns have been filed. If new returns exist, then register all defaulting accounts and customers. If the defaulting client codes have not been previously advised, produce another table of defaulting accounts and send to account management. All of this must be completed by 2 : 30 pm, if it is not, then an alert should be sent to the supervisor. Once the new defaultingaccount report has been completed, check the CRM system to see whether new returns have been filed. If new returns havebeen filed, reconcile with the existing account defaulters table. This must be completed by 4 : 0 pm otherwise a supervisor should be sent a message..
+
+
+💻 AI: Based on the provided process description, I will extract the declarative constraints.
+
+**Activities:** database_backup, check_defaulter_table, check_crm_system, register_defaulting_accounts, produce_defaulter_report, send_alert, reconcile_accounts, send_message
+
+**Temporary Declarative Constraints:**
+
+* existence(database_backup)
+* succession(check_defaulter_table, check_crm_system)
+* response(check_defaulter_table, register_defaulting_accounts)
+* response(register_defaulting_accounts, produce_defaulter_report)
+* not-succession(produce_defaulter_report, check_defaulter_table)
+* response(produce_defaulter_report, reconcile_accounts)
+* not-exclusive-choice(send_alert, send_message)
+* precedence(check_defaulter_table, send_alert)
+* precedence(reconcile_accounts, send_message)
+
+**Final Formal Declarative Constraints:**
+
+Activities: database_backup, check_defaulter_table, check_crm_system, register_defaulting_accounts, produce_defaulter_report, send_alert, reconcile_accounts, send_message
+at-most(send_alert)
+existence(database_backup)
+response(check_defaulter_table, check_crm_system)
+precedence(register_defaulting_accounts, produce_defaulter_report)
+not-succession(produce_defaulter_report, check_defaulter_table)
+response(produce_defaulter_report, reconcile_accounts)
+not-exclusive-choice(send_alert, send_message)
+precedence(check_defaulter_table, send_alert)
+precedence(reconcile_accounts, send_message)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The INQ transmits the transaction data request to the IP. The IP checks the request of the INQ. The IP answers the question of the INQ depending on the outcome of the examination, i.e. Transmission of data or rejection..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- INQ transmits the transaction data request to the IP (activity: transmit_request)
+- IP checks the request of the INQ (activity: check_request)
+- IP answers the question of the INQ (activity: answer_question)
+
+Based on the description, we have the following activities:
+Activities: transmit_request, check_request, answer_question
+
+The process seems to imply a sequence where the INQ transmits a request, the IP checks it, and then answers. This can be broken down into:
+
+1. The INQ must transmit a request before the IP checks it.
+2. The IP must check the request before answering.
+
+From the given constraint definitions, we can derive:
+
+- The process starts with transmitting a request (Init(transmit_request) is not directly mentioned but we focus on the flow).
+- check_request must occur after transmit_request (response(transmit_request, check_request)).
+- answer_question must occur after check_request (response(check_request, answer_question)).
+
+However, a more accurate interpretation directly from the text seems to suggest:
+
+- The INQ transmits the transaction data request to the IP (transmit_request).
+- The IP checks the request (check_request).
+- The IP then answers (answer_question).
+
+Given this sequence, we want to ensure:
+
+- transmit_request happens before check_request (precedence(transmit_request, check_request)).
+- check_request happens before answer_question (precedence(check_request, answer_question)).
+
+But directly mapping to given templates and ensuring activities are not shortened:
+
+Final Formal Declarative Constraints:
+precedence(transmit_request, check_request)
+precedence(check_request, answer_question)
+
+Activities: transmit_request, check_request, answer_question
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The process is triggered by the demand of a functional department to fill a post. The post is advertised, applicantsapply, the applications are checked and the post is filled. The process finishes when the post was filled, precisely through the conclusion of a contract of employment..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the key activitiesmentioned:
+
+- Demand for filling a post
+- Advertise the post
+- Applicants apply
+- Check applications
+- Fill the post
+- Conclusion of a contract of employment
+
+Let's denote these activities with simpler terms for clarity:
+
+- demand_filling_post (or simply demand)
+- advertise_post (or advertise)
+- applicants_apply (or apply)
+- check_applications (or check)
+- fill_post (or fill)
+- conclude_contract_employment (or conclude)
+
+From the process description:
+
+1. The process starts with a demand to fill a post.
+2. The post is advertised.
+3. Applicants apply.
+4. The applications are checked.
+5. The post is filled.
+6. The process finishes with the conclusion of a contract of employment.
+
+## Step 1: Identify the Start of the Process
+The process starts with "demand_filling_post," which implies:
+
+- Init(demand_filling_post)
+
+## Step 2: Determine the Sequence of Activities
+Given the sequence: demand → advertise → apply → check → fill → conclude, we can derive several constraints:
+
+- succession(advertise_post, applicants_apply)
+- succession(applicants_apply, check_applications)
+- succession(check_applications, fill_post)
+- succession(fill_post, conclude_contract_employment)
+
+## Step 3: Ensure Activities Occur in Order
+To ensure that activities occur one after the other without skipping:
+
+- precedence(advertise_post, applicants_apply)
+- precedence(applicants_apply, check_applications)
+- precedence(check_applications, fill_post)
+- precedence(fill_post, conclude_contract_employment)
+
+## Step 4: Mandatory Occurrence of Activities
+All activities must occur:
+
+- existence(advertise_post)
+- existence(applicants_apply)
+- existence(check_applications)
+- existence(fill_post)
+- existence(conclude_contract_employment)
+
+## Step 5: Response and Chain Constraints
+Given the direct sequence, we also consider:
+
+- response(demand_filling_post, advertise_post)
+- chain-succession(advertise_post, applicants_apply)
+- chain-succession(applicants_apply, check_applications)
+- chain-succession(check_applications, fill_post)
+- chain-succession(fill_post, conclude_contract_employment)
+
+## Step 6: Compile Constraints
+Considering the examples and process description, let's focus on key constraints that directly reflect the sequence andmandatory occurrences:
+
+- Init(demand_filling_post)
+- succession(advertise_post, applicants_apply)
+- succession(applicants_apply, check_applications)
+- succession(check_applications, fill_post)
+- succession(fill_post, conclude_contract_employment)
+- existence(advertise_post)
+- existence(applicants_apply)
+- existence(check_applications)
+- existence(fill_post)
+- existence(conclude_contract_employment)
+- response(demand_filling_post, advertise_post)
+- chain-succession(advertise_post, applicants_apply)
+- chain-succession(applicants_apply, check_applications)
+- chain-succession(check_applications, fill_post)
+- chain-succession(fill_post, conclude_contract_employment)
+
+## Step 7: Finalize Constraints
+Given the specific templates and the process, we need to ensure that:
+
+Final Formal Declarative Constraints:
+- Init(demand_filling_post)
+- existence(advertise_post)
+- existence(applicants_apply)
+- existence(check_applications)
+- existence(fill_post)
+- existence(conclude_contract_employment)
+- succession(advertise_post, applicants_apply)
+- succession(applicants_apply, check_applications)
+- succession(check_applications, fill_post)
+- succession(fill_post, conclude_contract_employment)
+- response(demand_filling_post, advertise_post)
+
+Activities: demand_filling_post, advertise_post, applicants_apply, check_applications, fill_post, conclude_contract_employment
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   At the beginning the customer perceives that her subscribed service has degraded. A list with all the problem parameters is then sent to the Customer Service department of TELECO. At the customer service an employee enters (based on thereceived data) a problem report into system T.. Then the problem report is compared to the customer SLA to identify what the extent and the details of the service degradation are. Based on this, the necessary counter measures are determined including their respective priorities. An electronic service then determines the significance of the customer based oninformation that has been collected during the history of the contractual relationship. In case the customer is premium, the process will link to an extra problem fix process (this process will not be detailed here). In case the customer is of certain significance which would affect the counter measures previously decided upon, the process goes back to re-prioritize these measures otherwise the process continues. Taking together the information (i.e. contract commitment data+ prioritized actions) a detailed problem report is created. The detailed problem report is then sent to Service Management. Service Management deals on a first level with violations of quality in services that are provided to customers. After receiving the detailed problem report, Service management investigates whether the problem is analyzable at the level of their department or whether the problem may be located at Resource Provisioning. In case Service Management assesses the problem to be not analyzable by themselves, the detailed problem report is sent out to Resource Provisioning. If Service Management is sure they can analyze it, they perform the analysis and based on the outcome they create a troublereport that indicates the type of problem. After Resource Provisioning receives the detailed problem report, it is checked whether there are any possible problems. If no problems are detected, a notification about the normal service execution is created. If a problem is detected this will be analyzed by Resource Provisioning and a trouble report is created.Either trouble report or the normal execution notification will be included in a status report and sent back to ServiceManagement. Service Management then prepares the final status report based on the received information. Subsequently ithas to be determined what counter measures should be taken depending on the information in the final status report. Three alternative process paths may be taken. For the case that no problem was detected at all, the actual service performance is sent back to the Customer Service. For the case that minor corrective actions are required, Service Management will undertake corrective actions by themselves. Subsequently, the problem resolution report is created and then sent out to Customer Service. After sending, this process path of Service Management ends. For the case that automatic resource restoration from Resource Provisioning is required, Service Management must create a request for automatic resource restoration. This message is then sent to Resource Provisioning. Resource Provisioning has been on-hold and waiting for a restoration request but this must happen within 2 days after the status report was sent out, otherwise Resource Provisioning terminates the process. After the restoration request is received, all possible errors are tracked. Based on the tracked errors, all necessary corrective actions are undertaken by Resource Provisioning. Then a trouble-shooting report is created. This report is sent out to Service Management ; then the process ends. The trouble-shooting report is received by Service Management and this information goes then into the creation of the problem resolution report just as describedfor ii). Customer Service either receives the actual service performance (if there was no problem) or the problem resolution report. Then, two concurrent activities are triggered, i.e. i) a report is created for the customer which details the current service performance and the resolution of the problem, and ii) an SLA violation rebate is reported to Billing & Collections who will adjust the billing. The report for the customer is sent out to her. After all three activities are completed the process ends within Customer Service. After the customer then receives the report about service performance and problem resolution from Customer Service, the process flow at the customer also ends..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the key activitiesmentioned:
+
+- Customer perceives service degradation
+- List sent to Customer Service
+- Employee enters problem report
+- Problem report compared to customer SLA
+- Counter measures determined
+- Electronic service determines customer significance
+- Extra problem fix process (for premium customers)
+- Re-prioritize measures (if significant customer)
+- Detailed problem report created
+- Sent to Service Management
+- Service Management investigates analyzability
+- Analysis by Service Management or Resource Provisioning
+- Trouble report or normal execution notification created
+- Status report sent back to Service Management
+- Counter measures determined
+- Three alternative process paths:
+  - Actual service performance sent back
+  - Corrective actions by Service Management
+  - Automatic resource restoration requested
+- Restoration request sent to Resource Provisioning
+- Errors tracked and corrective actions undertaken
+- Trouble-shooting report created and sent
+- Problem resolution report created and sent
+- Report for customer created
+- SLA violation rebate reported
+- Report sent to customer
+
+Let's simplify and extract activities:
+
+1. Customer_Service_Report_Creation
+2. Problem_Report_Entered
+3. SLA_Comparison
+4. Counter_Measures_Determined
+5. Customer_Significance_Determined
+6. Detailed_Problem_Report_Created
+7. Sent_to_Service_Management
+8. Service_Management_Analysis
+9. Resource_Provisioning_Analysis
+10. Trouble_Report_Created
+11. Normal_Execution_Notification_Created
+12. Status_Report_Sent
+13. Corrective_Actions_Taken
+14. Restoration_Request_Sent
+15. Errors_Tracked
+16. Trouble_Shooting_Report_Created
+17. Problem_Resolution_Report_Created
+18. Customer_Report_Created
+19. SLA_Violation_Rebate_Reported
+
+## Activities:
+Customer_Service_Report_Creation, Problem_Report_Entered, SLA_Comparison, Counter_Measures_Determined, Customer_Significance_Determined, Detailed_Problem_Report_Created, Sent_to_Service_Management, Service_Management_Analysis, Resource_Provisioning_Analysis, Trouble_Report_Created, Normal_Execution_Notification_Created, Status_Report_Sent, Corrective_Actions_Taken, Restoration_Request_Sent, Errors_Tracked, Trouble_Shooting_Report_Created, Problem_Resolution_Report_Created, Customer_Report_Created, SLA_Violation_Rebate_Reported
+
+## Temporary Declarative Constraints:
+
+- succession(Customer_Service_Report_Creation, Problem_Report_Entered)
+- succession(Problem_Report_Entered, SLA_Comparison)
+- succession(SLA_Comparison, Counter_Measures_Determined)
+- succession(Counter_Measures_Determined, Customer_Significance_Determined)
+- succession(Customer_Significance_Determined, Detailed_Problem_Report_Created)
+- succession(Detailed_Problem_Report_Created, Sent_to_Service_Management)
+- succession(Sent_to_Service_Management, Service_Management_Analysis)
+- response(Service_Management_Analysis, Resource_Provisioning_Analysis)
+- response(Service_Management_Analysis, Corrective_Actions_Taken)
+- succession(Resource_Provisioning_Analysis, Trouble_Report_Created)
+- succession(Resource_Provisioning_Analysis, Normal_Execution_Notification_Created)
+- succession(Trouble_Report_Created, Status_Report_Sent)
+- succession(Normal_Execution_Notification_Created, Status_Report_Sent)
+- succession(Status_Report_Sent, Corrective_Actions_Taken)
+- succession(Status_Report_Sent, Restoration_Request_Sent)
+- succession(Restoration_Request_Sent, Errors_Tracked)
+- succession(Errors_Tracked, Trouble_Shooting_Report_Created)
+- succession(Trouble_Shooting_Report_Created, Problem_Resolution_Report_Created)
+- succession(Problem_Resolution_Report_Created, Customer_Report_Created)
+- succession(Problem_Resolution_Report_Created, SLA_Violation_Rebate_Reported)
+- succession(Customer_Report_Created, SLA_Violation_Rebate_Reported)
+
+## Final Formal Declarative Constraints:
+```
+existence(Customer_Service_Report_Creation)
+existence(Problem_Report_Entered)
+existence(SLA_Comparison)
+existence(Counter_Measures_Determined)
+existence(Customer_Significance_Determined)
+existence(Detailed_Problem_Report_Created)
+existence(Sent_to_Service_Management)
+existence(Service_Management_Analysis)
+existence(Resource_Provisioning_Analysis)
+existence(Status_Report_Sent)
+existence(Problem_Resolution_Report_Created)
+existence(Customer_Report_Created)
+existence(SLA_Violation_Rebate_Reported)
+
+response(Service_Management_Analysis, Resource_Provisioning_Analysis)
+response(Service_Management_Analysis, Corrective_Actions_Taken)
+
+succession(Customer_Service_Report_Creation, Problem_Report_Entered)
+succession(Problem_Report_Entered, SLA_Comparison)
+succession(SLA_Comparison, Counter_Measures_Determined)
+succession(Counter_Measures_Determined, Customer_Significance_Determined)
+succession(Customer_Significance_Determined, Detailed_Problem_Report_Created)
+succession(Detailed_Problem_Report_Created, Sent_to_Service_Management)
+succession(Sent_to_Service_Management, Service_Management_Analysis)
+succession(Service_Management_Analysis, Resource_Provisioning_Analysis)
+succession(Resource_Provisioning_Analysis, Trouble_Report_Created)
+succession(Resource_Provisioning_Analysis, Normal_Execution_Notification_Created)
+succession(Status_Report_Sent, Corrective_Actions_Taken)
+succession(Status_Report_Sent, Restoration_Request_Sent)
+succession(Restoration_Request_Sent, Errors_Tracked)
+succession(Errors_Tracked, Trouble_Shooting_Report_Created)
+succession(Trouble_Shooting_Report_Created, Problem_Resolution_Report_Created)
+succession(Problem_Resolution_Report_Created, Customer_Report_Created)
+succession(Problem_Resolution_Report_Created, SLA_Violation_Rebate_Reported)
+succession(Customer_Report_Created, SLA_Violation_Rebate_Reported)
+
+not-exclusive-choice(Trouble_Report_Created, Normal_Execution_Notification_Created)
+```
+Activities: Customer_Service_Report_Creation, Problem_Report_Entered, SLA_Comparison, Counter_Measures_Determined, Customer_Significance_Determined, Detailed_Problem_Report_Created, Sent_to_Service_Management, Service_Management_Analysis, Resource_Provisioning_Analysis, Trouble_Report_Created, Normal_Execution_Notification_Created, Status_Report_Sent, Corrective_Actions_Taken, Restoration_Request_Sent, Errors_Tracked, Trouble_Shooting_Report_Created, Problem_Resolution_Report_Created, Customer_Report_Created, SLA_Violation_Rebate_Reported
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The process starts periodically on the first of each month, when Assembler AG places an order with the supplier in order to request more product parts. a) Assembler AG sends the order to the supplier. b) The supplier processes the order. c) The supplier sends an invoice to Assembler AG. d) Assembler AG receives the invoice..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Assembler AG places an order with the supplier
+- Assembler AG sends the order to the supplier
+- The supplier processes the order
+- The supplier sends an invoice to Assembler AG
+- Assembler AG receives the invoice
+
+We can simplify these to:
+- place_order
+- send_order
+- process_order
+- send_invoice
+- receive_invoice
+
+From the description, we can infer the following sequence and relationships:
+
+1. The process starts with Assembler AG placing an order.
+2. This is followed by sending the order.
+3. Then, the supplier processes the order.
+4. After processing, the supplier sends an invoice.
+5. Finally, Assembler AG receives the invoice.
+
+Based on this sequence, we can derive some constraints:
+
+- Init(place_order)
+- succession(place_order, send_order)
+- succession(send_order, process_order)
+- succession(process_order, send_invoice)
+- succession(send_invoice, receive_invoice)
+- chain-succession(place_order, send_order)
+- chain-succession(send_order, process_order)
+- chain-succession(process_order, send_invoice)
+- chain-succession(send_invoice, receive_invoice)
+
+However, given the nature of the process and the constraints provided, we should focus on the essential relationships that must hold:
+
+Activities: place_order, send_order, process_order, send_invoice, receive_invoice
+
+Final Formal Declarative Constraints:
+Init(place_order)
+chain-succession(place_order, send_order)
+chain-succession(send_order, process_order)
+chain-succession(process_order, send_invoice)
+chain-succession(send_invoice, receive_invoice)
+succession(place_order, receive_invoice)
+not-succession(send_order, place_order)
+not-succession(process_order, send_order)
+not-succession(send_invoice, process_order)
+not-succession(receive_invoice, send_invoice)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   When a claim is received, it is first checked whether the claimant is insured by the organization. If not, the claimant is informed that the claim must be rejected. Otherwise, the severity of the claim is evaluated. Based on the outcome(simple or complex claims), relevant forms are sent to the claimant. Once the forms are returned, they are checked for completeness. If the forms provide all relevant details, the claim is registered in the Claims Management system, which ends the Claims Notification process. Otherwise, the claimant is informed to update the forms. Upon reception of the updated forms, they are checked again..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the key activitiesmentioned:
+
+1. Receive claim
+2. Check insurance
+3. Inform claimant to reject claim
+4. Evaluate claim severity
+5. Send forms to claimant
+6. Return forms
+7. Check forms for completeness
+8. Register claim in Claims Management system
+9. Inform claimant to update forms
+
+Based on the process description, here are the steps and their corresponding constraints:
+
+- The process starts with receiving a claim.
+- **Init(Receive claim)**
+
+- If the claimant is not insured, the claimant is informed to reject the claim.
+- **response(Check insurance, Inform claimant to reject claim)**
+- **not-response(Check insurance, Send forms to claimant)**  (If insured is checked and verified, then forms are sent)
+
+- The severity of the claim is evaluated after checking insurance.
+- **succession(Check insurance, Evaluate claim severity)**
+
+- Based on the outcome, relevant forms are sent.
+- **response(Evaluate claim severity, Send forms to claimant)**
+
+- Once the forms are returned, they are checked for completeness.
+- **succession(Return forms, Check forms for completeness)**
+
+- If the forms are complete, the claim is registered; otherwise, the claimant is informed to update the forms.
+- **response(Check forms for completeness, Register claim in Claims Management system)**
+- **not-response(Check forms for completeness, Inform claimant to update forms)**
+- **response(Inform claimant to update forms, Return forms)**
+- **not-succession(Update forms are not explicitly mentioned but implied through "Inform claimant to update forms" and "Return forms"); hence, specific constraints are challenging without "Update forms")**
+
+Given the activities and their flow:
+
+**Activities: Receive claim, Check insurance, Inform claimant to reject claim, Evaluate claim severity, Send forms to claimant, Return forms, Check forms for completeness, Register claim in Claims Management system, Inform claimant to update forms**
+
+**Final Formal Declarative Constraints:**
+
+1. Init(Receive claim)
+2. response(Check insurance, Inform claimant to reject claim)
+3. not-response(Check insurance, Send forms to claimant)
+4. succession(Check insurance, Evaluate claim severity)
+5. response(Evaluate claim severity, Send forms to claimant)
+6. succession(Return forms, Check forms for completeness)
+7. response(Check forms for completeness, Register claim in Claims Management system)
+8. not-response(Check forms for completeness, Inform claimant to update forms)
+9. response(Inform claimant to update forms, Return forms)
+10. not-succession(Inform claimant to update forms, Register claim in Claims Management system)
+
+This translation aims to capture the essence of the described process in terms of declarative constraints. Given the complexity and the specific nature of some steps (like "Inform claimant to update forms" not being a direct activity but part of the flow), some constraints might slightly adapt or combine the given activities to fit the provided template anddefinitions.
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   Once the dates are finalized (by the Coordination Unit), the Support Officer updates all group calendars and createsmeeting folders for each meeting and ensures all appropriate documents are uploaded to system. Committee Members are advised a week before each meeting to read all related documents. The Committee Members hold their meeting, and the Support Office then produces minutes including any Action Points for each Committee Member. Within 5 working days, the Coordination Unit must conduct a QA check on the minutes, which are then sent to all Committee Members. The Support Officer then updates all departmental records..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Finalize dates
+- Update group calendars
+- Create meeting folders
+- Upload documents
+- Advise Committee Members
+- Hold meeting
+- Produce minutes
+- Conduct QA check
+- Send minutes
+- Update departmental records
+
+The process description can be broken down into several steps, and we'll identify the relationships between activities to formulate declarative constraints.
+
+## Step 1: Identify the Start of the Process
+The process starts with finalizing dates.
+
+## Step 2: Determine Sequential Activities
+- Finalize dates leads to update group calendars and create meeting folders.
+- Update group calendars and create meeting folders happen before upload documents.
+- Upload documents happens before advise Committee Members.
+- Advise Committee Members happens before hold meeting.
+- Hold meeting happens before produce minutes.
+- Produce minutes happens before conduct QA check.
+- Conduct QA check happens before send minutes.
+- Send minutes happens before update departmental records.
+
+## Step 3: Formulate Constraints
+Based on the sequence and relationships:
+- precedence(finalize_dates, update_group_calendars)
+- precedence(finalize_dates, create_meeting_folders)
+- response(finalize_dates, upload_documents)
+- response(update_group_calendars, upload_documents)
+- response(create_meeting_folders, upload_documents)
+- response(upload_documents, advise_committee_members)
+- response(advise_committee_members, hold_meeting)
+- response(hold_meeting, produce_minutes)
+- response(produce_minutes, conduct_qa_check)
+- response(conduct_qa_check, send_minutes)
+- response(send_minutes, update_departmental_records)
+- succession(produce_minutes, conduct_qa_check)
+- succession(conduct_qa_check, send_minutes)
+- succession(send_minutes, update_departmental_records)
+
+## Step 4: Consider Other Constraints
+- Init(finalize_dates) because the process starts with finalizing dates.
+
+## Step 5: Compile Activities and Constraints
+Activities: finalize_dates, update_group_calendars, create_meeting_folders, upload_documents, advise_committee_members,hold_meeting, produce_minutes, conduct_qa_check, send_minutes, update_departmental_records
+
+## Step 6: Final Constraints
+Given the complexity and the need for a concise output, let's focus on the critical path and direct successions.
+
+Final Formal Declarative Constraints:
+- Init(finalize_dates)
+- precedence(finalize_dates, update_group_calendars)
+- precedence(finalize_dates, create_meeting_folders)
+- response(finalize_dates, upload_documents)
+- response(upload_documents, advise_committee_members)
+- response(advise_committee_members, hold_meeting)
+- response(hold_meeting, produce_minutes)
+- response(produce_minutes, conduct_qa_check)
+- response(conduct_qa_check, send_minutes)
+- response(send_minutes, update_departmental_records)
+- succession(produce_minutes, conduct_qa_check)
+- succession(conduct_qa_check, send_minutes)
+- succession(send_minutes, update_departmental_records)
+
+Activities: finalize_dates, update_group_calendars, create_meeting_folders, upload_documents, advise_committee_members,hold_meeting, produce_minutes, conduct_qa_check, send_minutes, update_departmental_records
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   In November of each year, the Coordination Unit at the Town Planning Authority drafts a schedule of meetings for thenext calendar year and adds draft dates to all calendars. The Support Officer then checks the dates and suggests modifications. The Coordination Unit then rechecks all dates and looks for potential conflicts. The final schedule of meeting dates is sent to all the independent Committee Members by email, who then check their diaries and advise the Coordination Unit of any conflicts..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- drafting a schedule of meetings
+- adding draft dates to all calendars
+- checking the dates
+- suggesting modifications
+- rechecking all dates
+- looking for potential conflicts
+- sending the final schedule to all Committee Members
+- checking diaries
+- advising of any conflicts
+
+For simplicity, let's label these activities as:
+
+- draft_schedule
+- add_dates
+- check_dates
+- suggest_modifications
+- recheck_dates
+- look_for_conflicts
+- send_schedule
+- check_diaries
+- advise_conflicts
+
+Based on the description:
+
+1. The process starts with drafting a schedule of meetings, which implies:
+   - Init(draft_schedule)
+
+2. The Coordination Unit drafts a schedule and adds dates, then the Support Officer checks and suggests modifications. This implies that:
+   - succession(draft_schedule, add_dates)
+   - succession(add_dates, check_dates)
+   - response(check_dates, suggest_modifications)
+
+3. The Coordination Unit then rechecks dates and looks for conflicts, implying:
+   - succession(suggest_modifications, recheck_dates)
+   - succession(recheck_dates, look_for_conflicts)
+
+4. The final schedule is sent to Committee Members, who then check their diaries and advise of conflicts. This implies:
+   - succession(look_for_conflicts, send_schedule)
+   - succession(send_schedule, check_diaries)
+   - succession(check_diaries, advise_conflicts)
+
+5. Certain activities must occur in order, and some must happen at least once:
+   - existence(draft_schedule)
+   - existence(add_dates)
+   - existence(check_dates)
+   - existence(suggest_modifications)
+   - existence(recheck_dates)
+   - existence(look_for_conflicts)
+   - existence(send_schedule)
+   - existence(check_diaries)
+   - existence(advise_conflicts)
+
+Given these points, here are the declarative constraints in a simplified, formal notation:
+
+```
+Final Formal Declarative Constraints:
+Init(draft_schedule)
+succession(draft_schedule, add_dates)
+succession(add_dates, check_dates)
+response(check_dates, suggest_modifications)
+succession(suggest_modifications, recheck_dates)
+succession(recheck_dates, look_for_conflicts)
+succession(look_for_conflicts, send_schedule)
+succession(send_schedule, check_diaries)
+succession(check_diaries, advise_conflicts)
+existence(draft_schedule)
+existence(add_dates)
+existence(check_dates)
+existence(suggest_modifications)
+existence(recheck_dates)
+existence(look_for_conflicts)
+existence(send_schedule)
+existence(check_diaries)
+existence(advise_conflicts)
+
+Activities: draft_schedule, add_dates, check_dates, suggest_modifications, recheck_dates, look_for_conflicts, send_schedule, check_diaries, advise_conflicts
+```
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   First, the Manager checks the open leads. Afterwards, he selects the top five ones. He then tells his Sales Assistant to call the contact person of the leads. The Sales Assistant calls each customer. If someone is interested, he sends anote to the Manager. The Manager then processes the lead. Otherwise, he calls the next customer..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Manager checks open leads
+- Manager selects top five leads
+- Sales Assistant calls contact person
+- Sales Assistant sends note to Manager
+- Manager processes lead
+- Manager calls next customer
+
+These activities can be simplified to:
+
+- check_open_leads
+- select_top_leads
+- call_contact_person
+- send_note
+- process_lead
+- call_next_customer
+
+From the process description, we can derive the following:
+
+1. The process starts with the Manager checking open leads.
+2. The Manager selects the top five leads after checking.
+3. The Sales Assistant calls the contact person of the leads.
+4. If someone is interested, the Sales Assistant sends a note to the Manager, who then processes the lead.
+5. If not, the Manager calls the next customer.
+
+Based on these steps, we can formulate the following declarative constraints:
+
+- Init(check_open_leads)
+- succession(check_open_leads, select_top_leads)
+- response(call_contact_person, send_note)
+- response(send_note, process_lead)
+- not-response(process_lead, call_next_customer)
+- precedence(call_contact_person, process_lead)
+- not-precedence(select_top_leads, call_contact_person)
+
+Final Formal Declarative Constraints:
+Init(check_open_leads)
+succession(check_open_leads, select_top_leads)
+response(call_contact_person, send_note)
+response(send_note, process_lead)
+not-response(process_lead, call_next_customer)
+precedence(call_contact_person, process_lead)
+not-precedence(select_top_leads, call_contact_person)
+
+Activities: check_open_leads, select_top_leads, call_contact_person, send_note, process_lead, call_next_customer
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   I am the HR clerk. When a vacancy is reported to me, I create a job description from the information. Sometimes there is still confusion in the message, then I must ask the Department again. I am submitting the job description for consideration and waiting for the approval. But, it can also happen that the department does not approve it, but rejects it, and requests a correction. Then I correct the description and submit it again for consideration. If the description is finally approved, I post the job..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities involved:
+
+- create_job_description
+- ask_Department
+- submit_for_consideration
+- approval
+- correct_description
+- post_job
+- reject
+
+Based on the process description provided, here are the declarative constraints:
+
+The process seems to involve the following sequence and conditions:
+
+1. The process starts with creating a job description.
+2. There might be a need to ask the department for clarification.
+3. After creating or correcting the job description, it is submitted for consideration.
+4. The description can be either approved or rejected.
+5. If rejected, it needs correction before resubmission.
+6. If approved, the job is posted.
+
+Given these steps, here are the constraints:
+
+- Init(create_job_description)
+- response(create_job_description, submit_for_consideration)
+- response(ask_Department, submit_for_consideration)
+- not-response(submit_for_consideration, reject)
+- response(reject, correct_description)
+- response(correct_description, submit_for_consideration)
+- response(approval, post_job)
+- not-succession(submit_for_consideration, reject)
+- succession(submit_for_consideration, approval)
+- choice(approval, reject)
+
+However, upon closer inspection, some of these can be refined or might not directly fit the templates provided. Let's focus on the key activities and their relationships:
+
+- The process definitely starts with `create_job_description`.
+- `ask_Department` can occur after `create_job_description` but doesn't directly precede any specific action in a mandatory sequence.
+- `submit_for_consideration` happens after either `create_job_description` or `correct_description`.
+- `approval` and `reject` are responses to `submit_for_consideration`.
+- If `reject` happens, `correct_description` must occur before another `submit_for_consideration`.
+- `post_job` happens after `approval`.
+
+Here are the constraints in the required format:
+
+```
+Final Formal Declarative Constraints:
+Init(create_job_description)
+response(create_job_description, submit_for_consideration)
+response(correct_description, submit_for_consideration)
+response(submit_for_consideration, approval)
+response(submit_for_consideration, reject)
+response(reject, correct_description)
+response(approval, post_job)
+succession(submit_for_consideration, approval)
+not-succession(approval, submit_for_consideration)
+Activities: create_job_description, ask_Department, submit_for_consideration, approval, correct_description, post_job, reject
+```
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   If the MPOO sends the bill for the temporary continuation of the metering point operations to the GO, the GO examines the bill. If the MSPO sends the bill for the temporary continuation of the measurement to the GO, the GO examines the bill. If the MSPO sends the bill for additional readings to the GO, the GO examines the bill. If the MPOO sends the billfor the equipment acquisition to the MPON or the GO, the MPON or the GO examines the bill. The GO or the MPON confirms the invoice with payment advice to the MPOO or the MSPO, or the GO or the MPON rejects the invoice of the MPOO or the MSPO..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- MPOO sends the bill for the temporary continuation of the metering point operations to the GO
+- MSPO sends the bill for the temporary continuation of the measurement to the GO
+- MSPO sends the bill for additional readings to the GO
+- MPOO sends the bill for the equipment acquisition to the MPON or the GO
+- GO examines the bill
+- MPON examines the bill
+- GO or the MPON confirms the invoice with payment advice to the MPOO or the MSPO
+- GO or the MPON rejects the invoice of the MPOO or the MSPO
+
+Let's simplify the activities:
+
+1. send_bill_temporary_continuation_metering (MPOO sends the bill for the temporary continuation of the metering point operations to the GO)
+2. send_bill_temporary_continuation_measurement (MSPO sends the bill for the temporary continuation of the measurement to the GO)
+3. send_bill_additional_readings (MSPO sends the bill for additional readings to the GO)
+4. send_bill_equipment_acquisition (MPOO sends the bill for the equipment acquisition to the MPON or the GO)
+5. examine_bill (GO examines the bill or MPON examines the bill)
+6. confirm_invoice (GO or the MPON confirms the invoice with payment advice to the MPOO or the MSPO)
+7. reject_invoice (GO or the MPON rejects the invoice of the MPOO or the MSPO)
+
+## Step 1: Identify the main activities and their relationships
+The process description implies that:
+- Sending a bill by MPOO or MSPO leads to the examination of the bill by GO or MPON.
+- The examination of the bill does not directly imply a confirmation or rejection but leads to one of these actions.
+
+## Step 2: Determine the constraints based on the activities and their relationships
+1. **response**: If a bill is sent, then it must be examined.
+   - response(send_bill_temporary_continuation_metering, examine_bill)
+   - response(send_bill_temporary_continuation_measurement, examine_bill)
+   - response(send_bill_additional_readings, examine_bill)
+   - response(send_bill_equipment_acquisition, examine_bill)
+
+2. **succession**: If a bill is examined, then either confirmation or rejection must occur.
+   - succession(examine_bill, confirm_invoice)
+   - succession(examine_bill, reject_invoice)
+
+3. **not-co-existence**: Confirmation and rejection are mutually exclusive actions.
+   - not-co-existence(confirm_invoice, reject_invoice)
+
+4. **existence**: All bills sent must be examined.
+   - existence(examine_bill)
+
+## Step 3: Refine the constraints for clarity and accuracy
+Given the process, we need to ensure that:
+- Every bill sent leads to an examination.
+- Examination leads to either confirmation or rejection, not both.
+
+## Step 4: Compile the final declarative constraints
+**Final Formal Declarative Constraints:**
+- response(send_bill_temporary_continuation_metering, examine_bill)
+- response(send_bill_temporary_continuation_measurement, examine_bill)
+- response(send_bill_additional_readings, examine_bill)
+- response(send_bill_equipment_acquisition, examine_bill)
+- succession(examine_bill, confirm_invoice)
+- succession(examine_bill, reject_invoice)
+- not-co-existence(confirm_invoice, reject_invoice)
+- existence(examine_bill)
+
+**Activities:** send_bill_temporary_continuation_metering, send_bill_temporary_continuation_measurement, send_bill_additional_readings, send_bill_equipment_acquisition, examine_bill, confirm_invoice, reject_invoice
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   I am the Head of the functional department. When I have detected a number of personnel requirements, I report the vacancy to the Personnel Department. Then I wait to get the job description for review before it is advertized. Under certain circumstances, I must ask for corrections again, otherwise I approve the job description. Sometimes it also happens that the colleague from the HR department still has questions about the tasks and requirements before he can describe the job. Then I am available for clarifications, of course..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Reporting the vacancy to the Personnel Department
+- Getting the job description for review
+- Advertizing the job
+- Asking for corrections
+- Approving the job description
+- Clarifications
+
+Let's assign simple labels to these activities for clarity:
+
+- report_vacancy
+- get_job_description
+- advertize_job
+- ask_corrections
+- approve_job_description
+- provide_clarifications
+
+From the description:
+
+1. The process starts with reporting the vacancy to the Personnel Department.
+2. Then, the Head of the functional department waits to get the job description for review.
+3. Under certain circumstances, they must ask for corrections again.
+4. Otherwise, they approve the job description.
+5. Sometimes, the colleague from the HR department still has questions, and the Head of the department is available forclarifications.
+
+## Step 1: Identify the sequence of activities
+The process involves a sequence where report_vacancy is followed by get_job_description.
+
+## Step 2: Determine the conditions for asking corrections or approving
+There are two paths after get_job_description: either ask_corrections or approve_job_description.
+
+## 3: Consider the role of clarifications
+clarifications can happen at any point if needed, but there's no strict sequence given.
+
+## 4: Formulate declarative constraints
+Based on the description:
+
+- The process starts with report_vacancy. (Init(report_vacancy))
+- report_vacancy is followed by get_job_description. (response(report_vacancy, get_job_description))
+- get_job_description can be followed by either ask_corrections or approve_job_description.
+  - If get_job_description occurs, then either ask_corrections or approve_job_description must occur. (choice(ask_corrections, approve_job_description) and not-exclusive-choice(ask_corrections, approve_job_description) and precedence(get_job_description, ask_corrections) and precedence(get_job_description, approve_job_description))
+- If ask_corrections occurs, it must be followed by get_job_description again for further review. (response(ask_corrections, get_job_description))
+- approve_job_description happens after get_job_description and does not directly follow ask_corrections. (not-response(ask_corrections, approve_job_description))
+
+## 5: Precise Constraints
+Given the complexity and the requirement for precise template fitting:
+- Init(report_vacancy)
+- response(report_vacancy, get_job_description)
+- precedence(get_job_description, advertize_job)
+- response(get_job_description, approve_job_description)
+- response(get_job_description, ask_corrections)
+- not-chain-response(ask_corrections, get_job_description)
+- succession(ask_corrections, get_job_description)
+
+## 6: Activities List
+Activities: report_vacancy, get_job_description, advertize_job, ask_corrections, approve_job_description, provide_clarifications
+
+## 7: Final Constraints
+Final Formal Declarative Constraints:
+Init(report_vacancy)
+response(report_vacancy, get_job_description)
+precedence(get_job_description, advertize_job)
+succession(ask_corrections, get_job_description)
+response(get_job_description, approve_job_description)
+response(get_job_description, ask_corrections)
+not-chain-response(ask_corrections, get_job_description)
+Activities: report_vacancy, get_job_description, advertize_job, ask_corrections, approve_job_description, provide_clarifications
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   Every time we get a new order from the sales department, first, one of my masters determines the necessary parts andquantities as well as the delivery date. Once that information is present, it has to be entered into our production planning system (PPS). It optimizes our production processes and creates possibly uniform work packages so that the setup times are minimized. Besides, it creates a list of parts to be procured. Unfortunately it is not coupled correctly to ourEnterprise Resource Planning system (ERP), so the data must be transferred manually. By the way, that is the second step. Once all the data is present, we need to decide whether any parts are missing and must be procured or if this is not necessary. Once production is scheduled to start, we receive a notice from the system and an employee takes care of the implementation. Finally, the order will be checked again for its quality..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Determining necessary parts and quantities as well as the delivery date
+- Entering data into the production planning system (PPS)
+- Deciding whether parts are missing and must be procured
+- Implementation
+- Quality check
+
+Let's denote these activities with simpler terms for clarity:
+
+- determine_parts
+- enter_into_PPS
+- decide_procurement
+- implementation
+- quality_check
+
+From the description, we can derive the following steps and constraints:
+
+1. The process starts with determining the necessary parts and quantities as well as the delivery date.
+   - **Init(determine_parts)**
+
+2. Once the information is present, it has to be entered into the production planning system (PPS).
+   - **response(determine_parts, enter_into_PPS)**
+   - **not-succession(determine_parts, decide_procurement)**, because decide_procurement happens after enter_into_PPS
+
+3. After entering data into PPS, we decide whether parts are missing.
+   - **response(enter_into_PPS, decide_procurement)**
+
+4. The process involves implementation after production is scheduled to start.
+   - **succession(decide_procurement, implementation)**
+
+5. Finally, the order will be checked again for its quality.
+   - **succession(implementation, quality_check)**
+
+6. All activities must happen in a somewhat linear progression without any mentioned parallelism that would violate succession or precedence constraints.
+
+Given the information and focusing on the strict definitions provided:
+
+**Activities: determine_parts, enter_into_PPS, decide_procurement, implementation, quality_check**
+
+**Final Formal Declarative Constraints:**
+
+- Init(determine_parts)
+- response(determine_parts, enter_into_PPS)
+- response(enter_into_PPS, decide_procurement)
+- succession(decide_procurement, implementation)
+- succession(implementation, quality_check)
+- not-chain-response(enter_into_PPS, decide_procurement)
+- not-response(decide_procurement, enter_into_PPS)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The MSPN sents a dismissal to the MSPO. The MSPO reviews the dismissal. The MSPO rejects the dismissal of the MSPN or The MSPO confirms the dismissal of the MSPN..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities involved:
+
+- MSPN_sents_dismissal
+- MSPO_reviews_dismissal
+- MSPO_rejects_dismissal
+- MSPO_confirms_dismissal
+
+The process description can be broken down as follows:
+
+1. The MSPN sends a dismissal to the MSPO.
+2. The MSPO reviews the dismissal.
+3. After reviewing, the MSPO either rejects the dismissal or confirms it.
+
+From this description, we can derive the following constraints:
+
+- The process starts with MSPN_sents_dismissal, so we have **Init(MSPN_sents_dismissal)**.
+- MSPO_reviews_dismissal must occur after MSPN_sents_dismissal, so we have **response(MSPN_sents_dismissal, MSPO_reviews_dismissal)**.
+- After MSPO_reviews_dismissal, either MSPO_rejects_dismissal or MSPO_confirms_dismissal must occur, suggesting an **exclusive-choice(MSPO_rejects_dismissal, MSPO_confirms_dismissal)**.
+- Both MSPO_rejects_dismissal and MSPO_confirms_dismissal must be preceded by MSPO_reviews_dismissal, implying **precedence(MSPO_reviews_dismissal, MSPO_rejects_dismissal)** and **precedence(MSPO_reviews_dismissal, MSPO_confirms_dismissal)**.
+
+However, upon closer inspection, we realize that **exclusive-choice** might not perfectly fit because it doesn't directly enforce that one of them happens after a specific activity. Instead, we focus on the sequence and mandatory occurrences:
+
+- **Init(MSPN_sents_dismissal)**
+- **response(MSPN_sents_dismissal, MSPO_reviews_dismissal)**
+- **precedence(MSPO_reviews_dismissal, MSPO_rejects_dismissal)**
+- **precedence(MSPO_reviews_dismissal, MSPO_confirms_dismissal)**
+- **choice(MSPO_rejects_dismissal, MSPO_confirms_dismissal)** could be considered but it's more accurate to say that after MSPO_reviews_dismissal, one of the two must happen, which is somewhat covered by the precedence and the fact that they are exclusive choices after a review.
+
+Given the direct sequence and conditions:
+
+**Final Formal Declarative Constraints:**
+- Init(MSPN_sents_dismissal)
+- response(MSPN_sents_dismissal, MSPO_reviews_dismissal)
+- precedence(MSPO_reviews_dismissal, MSPO_rejects_dismissal)
+- precedence(MSPO_reviews_dismissal, MSPO_confirms_dismissal)
+- exclusive-choice(MSPO_rejects_dismissal, MSPO_confirms_dismissal)
+
+**Activities:** MSPN_sents_dismissal, MSPO_reviews_dismissal, MSPO_rejects_dismissal, MSPO_confirms_dismissal
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The SP / PU / GO request changes to the MPO or the MPO himself causes a change. The MPO reviews the change request. The MPO rejects the change of the measuring point by the SP / PU / GO or the MPO confirmes the request of the SP / PU / GO. The MPO performs the measuring point change. The MPO reports the implementation to the SP / PU / GO or notifies the SP / PU / GO about the failure of the changes..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities involved:
+
+- Request change (SP/PU/GO or MPO)
+- Review change request (MPO)
+- Reject change (MPO)
+- Confirm change request (MPO)
+- Perform measuring point change (MPO)
+- Report implementation (MPO)
+- Notify failure (MPO)
+
+Activities: request_change, review_change_request, reject_change, confirm_change_request, perform_measuring_point_change, report_implementation, notify_failure
+
+Based on the description, here are the steps and their corresponding constraints:
+
+1. The SP/PU/GO or the MPO requests changes.
+   - **Init(request_change)**
+
+2. The MPO reviews the change request.
+   - **response(request_change, review_change_request)**
+
+3. The MPO either rejects the change or confirms the request.
+   - **exclusive-choice(reject_change, confirm_change_request)**
+   - **not-exclusive-choice(reject_change, confirm_change_request)** is not applicable here as we don't have a case where both must happen together or not at all based directly on the text, but **succession(review_change_request, reject_change)** and **succession(review_change_request, confirm_change_request)**
+
+4. If the MPO confirms, the MPO performs the measuring point change.
+   - **response(confirm_change_request, perform_measuring_point_change)**
+   - **not-response(reject_change, perform_measuring_point_change)**
+
+5. After performing the change, the MPO reports the implementation or notifies about the failure.
+   - **succession(perform_measuring_point_change, report_implementation)**
+   - **succession(perform_measuring_point_change, notify_failure)**
+   - **exclusive-choice(report_implementation, notify_failure)**
+
+**Temporary Declarative Constraints:**
+- Init(request_change)
+- response(request_change, review_change_request)
+- succession(review_change_request, reject_change)
+- succession(review_change_request, confirm_change_request)
+- exclusive-choice(reject_change, confirm_change_request)
+- response(confirm_change_request, perform_measuring_point_change)
+- not-response(reject_change, perform_measuring_point_change)
+- succession(perform_measuring_point_change, report_implementation)
+- succession(perform_measuring_point_change, notify_failure)
+- exclusive-choice(report_implementation, notify_failure)
+
+**Final Formal Declarative Constraints:**
+- Init(request_change)
+- response(request_change, review_change_request)
+- succession(review_change_request, reject_change)
+- succession(review_change_request, confirm_change_request)
+- exclusive-choice(reject_change, confirm_change_request)
+- response(confirm_change_request, perform_measuring_point_change)
+- not-response(reject_change, perform_measuring_point_change)
+- succession(perform_measuring_point_change, report_implementation)
+- succession(perform_measuring_point_change, notify_failure)
+- exclusive-choice(report_implementation, notify_failure)
+Activities: request_change, review_change_request, reject_change, confirm_change_request, perform_measuring_point_change, report_implementation, notify_failure
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The Evanstonian is an upscale independent hotel. When a guest calls room service at The Evanstonian, the room-service manager takes down the order. She then submits an order ticket to the kitchen to begin preparing the food. She also gives an order to the sommelier (i.e., the wine waiter) to fetch wine from the cellar and to prepare any other alcoholic beverages. Eighty percent of room-service orders include wine or some other alcoholic beverage. Finally, she assigns the order to the waiter. While the kitchen and the sommelier are doing their tasks, the waiter readies a cart (i.e., puts a tablecloth on the cart and gathers silverware). The waiter is also responsible for nonalcoholic drinks. Once the food, wine, and cart are ready, the waiter delivers it to the guest ’ s room. After returning to the room-service station, the waiter debits the guest ’ s account. The waiter may wait to do the billing if he has another order to prepare or deliver..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the key activitiesmentioned:
+
+1. Taking down the order
+2. Submitting an order ticket to the kitchen
+3. Giving an order to the sommelier
+4. Assigning the order to the waiter
+5. Readying a cart
+6. Delivering the order to the guest's room
+7. Debiting the guest's account
+
+These activities can be represented as:
+
+- take_down_order
+- submit_order_ticket
+- give_order_to_sommelier
+- assign_order_to_waiter
+- ready_cart
+- deliver_order
+- debit_guest_account
+
+Based on the description, we can derive the following constraints:
+
+- The process starts with taking down the order, which implies **Init(take_down_order)**.
+- When an order ticket is submitted to the kitchen, it must be followed by the preparation and delivery process, but there's no direct constraint given that another order can't be taken before the first is delivered. However, **succession(take_down_order, submit_order_ticket)** seems logical because taking down an order leads to submitting an order ticket.
+- Giving an order to the sommelier and submitting an order ticket to the kitchen can happen concurrently but both are necessary for the order to be complete, suggesting **co-existence(give_order_to_sommelier, submit_order_ticket)**.
+- Assigning the order to the waiter happens after the previous steps, implying **response(submit_order_ticket, assign_order_to_waiter)** and **response(give_order_to_sommelier, assign_order_to_waiter)**.
+- Readying a cart by the waiter must happen before delivering the order, suggesting **precedence(ready_cart, deliver_order)**.
+- Debiting the guest's account happens after delivering the order, implying **succession(deliver_order, debit_guest_account)**.
+
+However, let's refine these into the specified template format:
+
+**Temporary Declarative Constraints:**
+
+- Init(take_down_order)
+- succession(take_down_order, submit_order_ticket)
+- co-existence(give_order_to_sommelier, submit_order_ticket)
+- response(submit_order_ticket, assign_order_to_waiter)
+- response(give_order_to_sommelier, assign_order_to_waiter)
+- precedence(ready_cart, deliver_order)
+- succession(deliver_order, debit_guest_account)
+
+**Final Formal Declarative Constraints:**
+
+- Init(take_down_order)
+- succession(take_down_order, submit_order_ticket)
+- co-existence(give_order_to_sommelier, submit_order_ticket)
+- response(submit_order_ticket, assign_order_to_waiter)
+- response(give_order_to_sommelier, assign_order_to_waiter)
+- precedence(ready_cart, deliver_order)
+- succession(deliver_order, debit_guest_account)
+
+**Activities:** take_down_order, submit_order_ticket, give_order_to_sommelier, assign_order_to_waiter, ready_cart, deliver_order, debit_guest_account
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The process is initiated by a switch-over request. In doing so, the customer transmits his data to the customer service department of the company. Customer service is a shared service center between the departments Sales and Distribution. The customer data is received by customer service and based on this data a customer data object is entered into the CRM system. After customer data has been entered it should then be compared with the internal customer data base and checked for completeness and plausibility. In case of any errors these should be corrected on the basis of a simple error list. The comparison of data is done to prevent individual customer data being stored multiple times. In case the customerdoes not exist in the customer data base, a new customer object is being created which will remain the data object of interest during the rest of the process flow. This object consists of data elements such as the customers name and address and the assigned power gauge. The generated customer object is then used, in combination with other customer data to prepare the contract documents for the power supplier switch (including data such as bank connection, information on the selected rate, requested date of switch-over). In the following an automated check of the contract documents is carried out within the CIS (customer information system) in order to confirm their successful generation. In case of a negative response, i.e. the contract documents are not (or incorrectly) generated, the causing issues are being analyzed and resolved. Subsequently the contract documents are generated once again. In case of a positive response a confirmation document is sent out to the customer stating that the switch-over to the new supplier can be executed. A request to the grid operator is automatically sent out by the CIS. It puts the question whether the customer may be supplied by the selected supplier in the future. The switch-over request is checked by the grid operator for supplier concurrence, and the grid operator transmits a response comment. In the case of supplier concurrence the grid operator would inform all involved suppliers and demand the resolution of the conflict. The grid operator communicates with the old supplier and carries out the termination of the sales agreement between the customer and the old supplier (i.e. the customer service (of the new supplier) does not have to interact with the old supplier regarding termination). If there are not any objections by thegrid operator (i.e. no supplier concurrence), customer service creates a CIS contract. The customer then has the chanceto check the contract details and based on this check may decide to either withdraw from the switch contract or confirmit. Depending on the customers acceptance / rejection the process flow at customer service either ends (in case of withdrawal) or continues (in case of a confirmation). An additional constraint is that the customer can only withdraw from the offered contract within 7 days after the 7th day the contract will be regarded as accepted and the process continues.The confirmation message by the customer is therefore not absolutely necessary (as it will count as accepted after 7 days in any way) but it can speed up the switch process. On the switch-date, but no later than 10 days after power supply has begun, the grid operator transmits the power meter data to the customer service and the old supplier via messages containing a services consumption report. At the same time, the grid operator computes the final billing based on the meter data and sends it to the old supplier. Likewise the old supplier creates and sends the final billing to the customer. For the customer as well as the grid operator the process ends then. After receiving the meter data customer service imports the meter data to systems that require the information. The process of winning a new customer ends here..
+
+
+💻 AI: After analyzing the provided process description, I have identified the activities and declarative constraints. Here are my findings:
+
+**Activities:**
+switch-over request, transmit customer data, enter customer data object, compare customer data, check completeness and plausibility, correct errors, create new customer object, prepare contract documents, automated check contract documents, analyze and resolve issues, generate contract documents, send confirmation document, send request to grid operator, check supplier concurrence, resolve conflict, terminate sales agreement, create CIS contract, check contract details, withdraw from contract, confirm contract, transmit power meter data, compute final billing, send final billing, import meterdata
+
+**Temporary Declarative Constraints:**
+
+- existence(switch-over request)
+- response(transmit customer data, enter customer data object)
+- succession(enter customer data object, compare customer data)
+- response(compare customer data, check completeness and plausibility)
+- response(check completeness and plausibility, correct errors)
+- not-succession(correct errors, create new customer object)
+- succession(create new customer object, prepare contract documents)
+- response(prepare contract documents, automated check contract documents)
+- not-response(automated check contract documents, analyze and resolve issues)
+- succession(analyze and resolve issues, generate contract documents)
+- response(generate contract documents, send confirmation document)
+- succession(send confirmation document, send request to grid operator)
+- response(send request to grid operator, check supplier concurrence)
+- not-succession(check supplier concurrence, resolve conflict)
+- succession(resolve conflict, terminate sales agreement)
+- not-exclusive-choice(withdraw from contract, confirm contract)
+- not-chain-response(check contract details, withdraw from contract)
+- succession(confirm contract, create CIS contract)
+- not-precedence(transmit power meter data, compute final billing)
+- succession(compute final billing, send final billing)
+- response(send final billing, import meter data)
+
+**Final Formal Declarative Constraints:**
+
+- existence(switch-over request)
+- response(transmit customer data, enter customer data object)
+- succession(enter customer data object, compare customer data)
+- response(compare customer data, check completeness and plausibility)
+- response(check completeness and plausibility, correct errors)
+- not-succession(correct errors, create new customer object)
+- succession(create new customer object, prepare contract documents)
+- response(prepare contract documents, automated check contract documents)
+- not-response(automated check contract documents, analyze and resolve issues)
+- succession(analyze and resolve issues, generate contract documents)
+- response(generate contract documents, send confirmation document)
+- succession(send confirmation document, send request to grid operator)
+- response(send request to grid operator, check supplier concurrence)
+- not-succession(check supplier concurrence, resolve conflict)
+- succession(resolve conflict, terminate sales agreement)
+- exclusive-choice(withdraw from contract, confirm contract)
+- not-chain-response(check contract details, withdraw from contract)
+- succession(confirm contract, create CIS contract)
+- not-precedence(transmit power meter data, compute final billing)
+- succession(compute final billing, send final billing)
+- response(send final billing, import meter data)
+- Activities: switch-over request, transmit customer data, enter customer data object, compare customer data, check completeness and plausibility, correct errors, create new customer object, prepare contract documents, automated check contract documents, analyze and resolve issues, generate contract documents, send confirmation document, send request to grid operator, check supplier concurrence, resolve conflict, terminate sales agreement, create CIS contract, check contractdetails, withdraw from contract, confirm contract, transmit power meter data, compute final billing, send final billing, import meter data
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The process of an Office Supply Request starts when any employee of the organization submits an office supply request. Once the requirement is registered, the request is received by the immediate supervisor of the employee requesting the office supplies. The supervisor must approve or ask for a change, or reject the request. If the request is rejected the process will end. If the request is asked to make a change then it is returned to the petitioner / employee who can review the comments for the change request. If the request is approved it will go to the purchase department that will be in charge of making quotations (using a subprocess) and select a vendor. If the vendor is not valid in the system the purchase department will have to choose a different vendor. After a vendor is selected and confirmed, the system will generate and send a purchase order and wait for the product to be delivered and the invoice received. In any case the systemwill send a notification to let the user know what the result was. In any of the cases, approval, rejection or change required the system will send the user a notification..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the key activitiesmentioned:
+
+- submit_request
+- receive_request
+- approve_request
+- ask_for_change
+- reject_request
+- make_quotations
+- select_vendor
+- confirm_vendor
+- generate_purchase_order
+- wait_for_delivery
+- receive_invoice
+- send_notification
+
+Based on the process description, here are the declarative constraints:
+
+```
+Final Formal Declarative Constraints:
+Init(submit_request)
+succession(submit_request, receive_request)
+response(receive_request, approve_request)
+response(receive_request, ask_for_change)
+response(receive_request, reject_request)
+exclusive-choice(approve_request, ask_for_change, reject_request)
+response(ask_for_change, submit_request)
+not-response(reject_request, generate_purchase_order)
+succession(approve_request, make_quotations)
+succession(make_quotations, select_vendor)
+succession(select_vendor, confirm_vendor)
+response(confirm_vendor, generate_purchase_order)
+succession(generate_purchase_order, wait_for_delivery)
+succession(wait_for_delivery, receive_invoice)
+not-co-existence(receive_invoice, generate_purchase_order)
+not-response(reject_request, send_notification)
+not-response(ask_for_change, send_notification)
+not-response(approve_request, send_notification)
+succession(send_notification, end)
+
+Activities: submit_request, receive_request, approve_request, ask_for_change, reject_request, make_quotations, select_vendor, confirm_vendor, generate_purchase_order, wait_for_delivery, receive_invoice, send_notification
+```
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The MSPO deregisters at the GO. The GO verifies the deregistration. The GO rejects the deregistration of the MSPO orthe GO preliminarily confirms the deregistration of the MSPO. The GO assigns himself as MSP. The GO informs the MSPO about the end of the assignment and the beginning of the assignment of the GO. The GO informs the MPO about the assignmentof the GO. The GO informs the SP about the assignment of the GO..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- MSPO deregisters at the GO: deregistration
+- GO verifies the deregistration: verification
+- GO rejects the deregistration of the MSPO: rejection
+- GO preliminarily confirms the deregistration of the MSPO: preliminary_confirmation
+- GO assigns himself as MSP: assignment
+- GO informs the MSPO about the end of the assignment and the beginning of the assignment of the GO: inform_MSPO
+- GO informs the MPO about the assignment of the GO: inform_MPO
+- GO informs the SP about the assignment of the GO: inform_SP
+
+Activities: deregistration, verification, rejection, preliminary_confirmation, assignment, inform_MSPO, inform_MPO, inform_SP
+
+Based on the process description, we can derive the following sequence of events:
+
+1. The MSPO deregisters at the GO.
+2. The GO verifies the deregistration.
+3. The GO either rejects the deregistration or preliminarily confirms it.
+4. The GO assigns himself as MSP.
+5. The GO informs the MSPO, MPO, and SP about the assignment.
+
+From this, we can infer some constraints:
+
+- The process starts with deregistration.
+- Verification happens after deregistration.
+- Rejection or preliminary_confirmation happens after verification.
+- Assignment happens after rejection or preliminary_confirmation.
+- Informing MSPO, MPO, and SP happens after assignment.
+
+Let's formulate these into declarative constraints:
+
+```
+Final Formal Declarative Constraints:
+Init(deregistration)
+response(deregistration, verification)
+response(verification, rejection)
+response(verification, preliminary_confirmation)
+co-existence(rejection, preliminary_confirmation)
+response(rejection, assignment)
+response(preliminary_confirmation, assignment)
+succession(assignment, inform_MSPO)
+succession(assignment, inform_MPO)
+succession(assignment, inform_SP)
+not-exclusive-choice(inform_MSPO, inform_MPO)
+not-exclusive-choice(inform_MPO, inform_SP)
+not-exclusive-choice(inform_MSPO, inform_SP)
+```
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The fault detector reports a failure to the MPO or MPO has a suspicion of their own fault. The MPO shall examine thefailure. The MPO rejects the failure of the fault detector or the MPO confirms the failure of the fault detector. If the MPO confirms the failure of the fault detector, he informes the GO and the MSP. The MPO fixes the fault at the measuring device. The MPO shares the results of the repairs carried out with the fault detector. The MPO will inform the GO about the resolution of the interference. The MPO will inform the MSP about the resolution of the interference..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- fault_detector_reports_failure
+- mpo_examines_failure
+- mpo_rejects_failure
+- mpo_confirms_failure
+- mpo_informs_go
+- mpo_informs_msp
+- mpo_fixes_fault
+- mpo_shares_repair_results
+- mpo_informs_go_resolution
+- mpo_informs_msp_resolution
+
+## Step 1: Identify the main sequence of activities
+The process starts with the fault detector reporting a failure or the MPO suspecting a fault. The MPO then examines thefailure, which leads to either rejecting or confirming the failure.
+
+## 2: Determine the constraints based on the sequence
+- The process starts with either fault_detector_reports_failure or mpo_has_suspicion (not directly listed but implied as a start).
+- mpo_examines_failure must occur after fault_detector_reports_failure or mpo_has_suspicion.
+- If mpo_confirms_failure, then mpo_informs_go and mpo_informs_msp must occur.
+- mpo_fixes_fault occurs after mpo_confirms_failure.
+- mpo_shares_repair_results occurs after mpo_fixes_fault.
+- mpo_informs_go_resolution and mpo_informs_msp_resolution occur after mpo_shares_repair_results.
+
+## 3: Formalize the constraints
+Given the descriptions:
+- succession(fault_detector_reports_failure, mpo_examines_failure)
+- succession(mpo_has_suspicion, mpo_examines_failure)  // Assuming mpo_has_suspicion is an activity
+- response(mpo_confirms_failure, mpo_informs_go)
+- response(mpo_confirms_failure, mpo_informs_msp)
+- succession(mpo_informs_go, mpo_informs_go_resolution)
+- succession(mpo_informs_msp, mpo_informs_msp_resolution)
+- not-co-existence(mpo_rejects_failure, mpo_confirms_failure)
+- precedence(mpo_examines_failure, mpo_confirms_failure)
+- succession(mpo_confirms_failure, mpo_fixes_fault)
+- succession(mpo_fixes_fault, mpo_shares_repair_results)
+
+## 4: Consider Init constraints if any
+- Init(fault_detector_reports_failure) or Init(mpo_has_suspicion)
+
+## 5: Compile the constraints and activities
+Activities: fault_detector_reports_failure, mpo_examines_failure, mpo_rejects_failure, mpo_confirms_failure, mpo_informs_go, mpo_informs_msp, mpo_fixes_fault, mpo_shares_repair_results, mpo_informs_go_resolution, mpo_informs_msp_resolution, mpo_has_suspicion
+
+## 6: Write down the formal declarative constraints
+Final Formal Declarative Constraints:
+succession(fault_detector_reports_failure, mpo_examines_failure)
+succession(mpo_has_suspicion, mpo_examines_failure)
+response(mpo_confirms_failure, mpo_informs_go)
+response(mpo_confirms_failure, mpo_informs_msp)
+succession(mpo_confirms_failure, mpo_fixes_fault)
+succession(mpo_fixes_fault, mpo_shares_repair_results)
+not-co-existence(mpo_rejects_failure, mpo_confirms_failure)
+precedence(mpo_examines_failure, mpo_confirms_failure)
+response(mpo_informs_go, mpo_informs_go_resolution)
+response(mpo_informs_msp, mpo_informs_msp_resolution)
+Activities: fault_detector_reports_failure, mpo_examines_failure, mpo_rejects_failure, mpo_confirms_failure, mpo_informs_go, mpo_informs_msp, mpo_fixes_fault, mpo_shares_repair_results, mpo_informs_go_resolution, mpo_informs_msp_resolution, mpo_has_suspicion
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The intake workflow starts with a notice by telephone at the secretarial office of the mental health care institute.This notice is done by the family doctor of somebody who is in need of mental treatment. The secretarial worker inquires after the name and residence of the patient. On the basis of this information, the doctor is put through to the nursing officer responsible for the part of the region that the patient lives in. The nursing officer makes a full inquiry into the mental, health, and social state of the patient in question. This information is recorded on a registration form. At the end of the conversation, this form is handed in at the secretarial office of the institute. Here, the informationon the form is stored in the information system and subsequently printed. For new patients, a patient file is created. The registration form as well as the print from the information system are stored in the patient file. Patient files arekept at the secretarial office and may not leave the building. At the secretarial office, two registration cards are produced for respectively the future first and second intaker of the patient. The registration card contains a set of basic patient data. The new patient is added on the list of new notices. Halfway the week, at Wednesday, a staff meeting of the entire medical team takes place. The medical team consists of social-medical workers, physicians, and a psychiatrist. At this meeting, the team-leader assigns all new patients on the list of new notices to members of the team. Each patient will be assigned to a social-medical worker, who will act as the first intaker of the patient. One of the physicianswill act as the second intaker. In assigning intakers, the teamleader takes into account their expertise, the region they are responsible for, earlier contacts they might have had with the patient, and their case load. The assignments are recorded on an assignment list which is handed to the secretarial office. For each new assignment, it is also determinedwhether the medical file of the patient is required. This information is added to the assignment list. The secretarial office stores the assignment of each patient of the assignment list in the information system. It passes the produced registration cards to the first and second intaker of each newly assigned patient. An intaker keeps this registration withhim at times when visiting the patient and in his close proximity when he is at the office. For each patient for which the medical file is required, the secretarial office prepares and sends a letter to the family doctor of the patient, requesting for a copy of the medical file. As soon as this copy is received, the secretarial office will inform the secondintaker and add the copy to the patient file. The first intaker plans a meeting with the patient as soon as this is possible. During the first meeting, the patient is examined using a standard checklist which is filled out. Additional observations are registered in a personal notebook. After a visit, the first intaker puts a copy of these notes in the file of a patient. The standard checklist is also added to the patients file. The second intaker plans the first meeting onlyafter the medical information of the physician if required has been received. Physicians use dictaphones to record their observations made during meetings with patients. The secretarial office types out these tapes, after which the information is added to the patient file. As soon as the meetings of the first and second intaker with the patient have taken place, the secretarial office puts the patient on the list of patients that reach this status. For the staff meeting on Wednesday, they provide the team-leader with a list of these patients. For each of these patients, the first and second intaker together with the team-leader and the attending psychiatrist formulate a treatment plan. This treatment plan formally ends the intake procedure..
+
+
+💻 AI: Based on the provided process description, I have identified the following activities:
+
+Activities: notice_by_telephone, inquiry_patient_info, connect_to_nursing_officer, nursing_officer_inquiry, record_registration_form, hand_in_registration_form, store_info_in_system, print_info, create_patient_file, store_registration_form_and_print, produce_registration_cards, add_patient_to_new_notices_list, staff_meeting, assign_patients_to_team_members,record_assignments, store_assignments_in_system, pass_registration_cards_to_intakers, prepare_and_send_letter_for_medical_file, receive_medical_file_copy, inform_second_intaker, add_medical_file_copy_to_patient_file, plan_first_meeting, first_meeting_with_patient, fill_out_standard_checklist, register_additional_observations, add_notes_and_checklist_to_patient_file, plan_second_meeting, second_meeting_with_patient, record_physician_observations, type_out_physician_observations, add_physician_observations_to_patient_file, patient_on_list_of_patients_reach_status, provide_list_of_patients_to_team_leader, formulate_treatment_plan
+
+Here are the declarative constraints:
+
+Temporary Declarative Constraints:
+
+* Init(notice_by_telephone)
+* response(notice_by_telephone, inquiry_patient_info)
+* response(inquiry_patient_info, connect_to_nursing_officer)
+* response(nursing_officer_inquiry, record_registration_form)
+* response(record_registration_form, hand_in_registration_form)
+* response(hand_in_registration_form, store_info_in_system)
+* response(store_info_in_system, print_info)
+* response(print_info, create_patient_file)
+* co-existence(record_registration_form, store_registration_form_and_print)
+* response(create_patient_file, produce_registration_cards)
+* response(produce_registration_cards, add_patient_to_new_notices_list)
+* succession(add_patient_to_new_notices_list, staff_meeting)
+* response(staff_meeting, assign_patients_to_team_members)
+* response(assign_patients_to_team_members, record_assignments)
+* response(record_assignments, store_assignments_in_system)
+* response(store_assignments_in_system, pass_registration_cards_to_intakers)
+* not-exclusive-choice(plan_first_meeting, plan_second_meeting)
+* succession(plan_first_meeting, first_meeting_with_patient)
+* response(first_meeting_with_patient, fill_out_standard_checklist)
+* response(fill_out_standard_checklist, register_additional_observations)
+* response(register_additional_observations, add_notes_and_checklist_to_patient_file)
+* succession(plan_second_meeting, second_meeting_with_patient)
+* response(second_meeting_with_patient, record_physician_observations)
+* response(record_physician_observations, type_out_physician_observations)
+* response(type_out_physician_observations, add_physician_observations_to_patient_file)
+* succession(patient_on_list_of_patients_reach_status, provide_list_of_patients_to_team_leader)
+* response(provide_list_of_patients_to_team_leader, formulate_treatment_plan)
+
+Final Formal Declarative Constraints:
+
+* Init(notice_by_telephone)
+* response(notice_by_telephone, inquiry_patient_info)
+* response(inquiry_patient_info, connect_to_nursing_officer)
+* response(nursing_officer_inquiry, record_registration_form)
+* response(record_registration_form, hand_in_registration_form)
+* response(hand_in_registration_form, store_info_in_system)
+* response(store_info_in_system, print_info)
+* response(print_info, create_patient_file)
+* co-existence(record_registration_form, store_registration_form_and_print)
+* response(create_patient_file, produce_registration_cards)
+* response(produce_registration_cards, add_patient_to_new_notices_list)
+* succession(add_patient_to_new_notices_list, staff_meeting)
+* response(staff_meeting, assign_patients_to_team_members)
+* response(assign_patients_to_team_members, record_assignments)
+* response(record_assignments, store_assignments_in_system)
+* response(store_assignments_in_system, pass_registration_cards_to_intakers)
+* not-exclusive-choice(plan_first_meeting, plan_second_meeting)
+* succession(plan_first_meeting, first_meeting_with_patient)
+* response(first_meeting_with_patient, fill_out_standard_checklist)
+* response(fill_out_standard_checklist, register_additional_observations)
+* response(register_additional_observations, add_notes_and_checklist_to_patient_file)
+* succession(plan_second_meeting, second_meeting_with_patient)
+* response(second_meeting_with_patient, record_physician_observations)
+* response(record_physician_observations, type_out_physician_observations)
+* response(type_out_physician_observations, add_physician_observations_to_patient_file)
+* succession(patient_on_list_of_patients_reach_status, provide_list_of_patients_to_team_leader)
+* response(provide_list_of_patients_to_team_leader, formulate_treatment_plan)
+* Activities: notice_by_telephone, inquiry_patient_info, connect_to_nursing_officer, nursing_officer_inquiry, record_registration_form, hand_in_registration_form, store_info_in_system, print_info, create_patient_file, store_registration_form_and_print, produce_registration_cards, add_patient_to_new_notices_list, staff_meeting, assign_patients_to_team_members, record_assignments, store_assignments_in_system, pass_registration_cards_to_intakers, prepare_and_send_letter_for_medical_file, receive_medical_file_copy, inform_second_intaker, add_medical_file_copy_to_patient_file, plan_first_meeting, first_meeting_with_patient, fill_out_standard_checklist, register_additional_observations, add_notes_and_checklist_to_patient_file, plan_second_meeting, second_meeting_with_patient, record_physician_observations, type_out_physician_observations, add_physician_observations_to_patient_file, patient_on_list_of_patients_reach_status, provide_list_of_patients_to_team_leader, formulate_treatment_plan
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The Customer Service Representative sends a Mortgage offer to the customer and waits for a reply. If the customer calls or writes back declining the mortgage, the case details are updated and the work is then archived prior to cancellation. If the customer sends back the completed offer documents and attaches all prerequisite documents then the case is moved to administration for completion. If all pre-requisite documents are not provided a message is generated to the customer requesting outstanding documents. If no answer is received after 2 weeks, the case details are updated prior to archive and cancellation..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- sending_mortgage_offer
+- waiting_for_reply
+- updating_case_details
+- archiving
+- cancellation
+- sending_completed_offer_documents
+- moving_to_administration
+- generating_message
+- receiving_no_answer
+
+However, based on the description, the activities can be more accurately represented as:
+
+- send_mortgage_offer
+- receive_reply
+- update_case_details
+- archive
+- cancel
+- send_completed_offer_documents
+- move_to_administration
+- generate_message
+- receive_no_answer
+- decline_mortgage
+
+Here is a more detailed and accurate list:
+
+Activities: send_mortgage_offer, receive_reply, update_case_details, archive, cancel, send_completed_offer_documents, move_to_administration, generate_message, receive_no_answer, decline_mortgage
+
+Based on the process description, here are the declarative constraints:
+
+1. The process starts with sending a mortgage offer.
+   - Init(send_mortgage_offer)
+
+2. If the customer declines the mortgage, the case details are updated, and then the work is archived prior to cancellation.
+   - response(decline_mortgage, update_case_details)
+   - response(decline_mortgage, archive)
+   - response(decline_mortgage, cancel)
+
+3. If the customer sends back completed offer documents with all prerequisite documents, the case is moved to administration for completion.
+   - response(send_completed_offer_documents, move_to_administration)
+
+4. If not all prerequisite documents are provided, a message is generated to the customer requesting outstanding documents.
+   - response(send_completed_offer_documents, generate_message)
+
+5. If no answer is received after 2 weeks, the case details are updated prior to archive and cancellation.
+   - response(receive_no_answer, update_case_details)
+   - response(receive_no_answer, archive)
+   - response(receive_no_answer, cancel)
+
+6. The customer either replies (positive or negative) or does not reply at all.
+   - choice(receive_reply, receive_no_answer)
+
+7. Declining the mortgage and not sending back documents or not replying lead to case closure.
+   - exclusive-choice(decline_mortgage, not-succession(send_completed_offer_documents, receive_reply))
+
+However, upon reevaluation for accuracy and conciseness:
+
+Final Formal Declarative Constraints:
+Init(send_mortgage_offer)
+response(decline_mortgage, update_case_details)
+response(decline_mortgage, archive)
+response(decline_mortgage, cancel)
+response(send_completed_offer_documents, move_to_administration)
+response(send_completed_offer_documents, generate_message)
+response(receive_no_answer, update_case_details)
+response(receive_no_answer, archive)
+response(receive_no_answer, cancel)
+choice(receive_reply, receive_no_answer)
+exclusive-choice(decline_mortgage, not-existence(send_completed_offer_documents))
+
+Activities: send_mortgage_offer, receive_reply, update_case_details, archive, cancel, send_completed_offer_documents, move_to_administration, generate_message, receive_no_answer, decline_mortgage
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The MPOO deregisters at the GO. The GO verifies the deregistration. The GO rejects the deregistration of the MPOO orthe GO preliminarily confirms the deregistration of the MPOO. The GO prepares the readmission of the measuring point. Optionally, the GO may oblige the MPOO to continue the operations. If the GO binds the MPOO to continue the operation, the MPOO confirmes the continuation to the MPOO. The GO performs the equipment acquisition and / or equipment changes. TheGO assigns the GO as MPO. The GO informs the MPOO about the end of the assignment of the MPOO and the beginning of the assignment of the GO. The GO informs the MSPO about the assignment of the GO. The GO informs the SP about the assignmentof the GO..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- MPOO deregisters at the GO
+- GO verifies the deregistration
+- GO rejects the deregistration of the MPOO
+- GO preliminarily confirms the deregistration of the MPOO
+- GO prepares the readmission of the measuring point
+- GO obliges the MPOO to continue the operations
+- MPOO confirms the continuation to the MPOO
+- GO performs the equipment acquisition and/or equipment changes
+- GO assigns the GO as MPO
+- GO informs the MPOO about the end of the assignment of the MPOO and the beginning of the assignment of the GO
+- GO informs the MSPO about the assignment of the GO
+- GO informs the SP about the assignment of the GO
+
+Let's list these activities in a simplified form without shortening them:
+
+Activities: MPOO_deregisters_at_GO, GO_verifies_deregistration, GO_rejects_deregistration, GO_preliminarily_confirms_deregistration, GO_prepares_readmission, GO_obliges_continue_operations, MPOO_confirms_continuation, GO_performs_equipment_acquisition, GO_assigns_GO_as_MPO, GO_informs_MPOO_about_assignment_change, GO_informs_MSPO_about_assignment, GO_informs_SP_about_assignment
+
+## Step 1: Analyzing the Process Description for Constraints
+
+From the description, we see that:
+- The process starts with MPOO deregistering at the GO.
+- GO verifies the deregistration.
+- Then, there are decisions and actions that may or may not happen based on certain conditions.
+
+## 2: Identifying Specific Constraints
+
+1. **Init(MPOO_deregisters_at_GO)**: The process starts with MPOO deregistering at the GO.
+
+2. **response(MPOO_deregisters_at_GO, GO_verifies_deregistration)**: If MPOO deregisters at the GO, then GO verifies the deregistration.
+
+3. **choice(GO_rejects_deregistration, GO_preliminarily_confirms_deregistration)**: After verification, the GO either rejects the deregistration or preliminarily confirms it.
+
+4. **not-co-existence(GO_rejects_deregistration, GO_preliminarily_confirms_deregistration)**: GO cannot both reject andpreliminarily confirm the deregistration.
+
+5. **response(GO_obliges_continue_operations, MPOO_confirms_continuation)**: If GO obliges MPOO to continue operations,then MPOO confirms the continuation.
+
+6. **not-response(GO_preliminarily_confirms_deregistration, GO_obliges_continue_operations)**: If GO preliminarily confirms deregistration, GO does not oblige MPOO to continue operations immediately after.
+
+7. **succession(GO_performs_equipment_acquisition, GO_assigns_GO_as_MPO)**: GO performs equipment acquisition and then assigns GO as MPO.
+
+## 3: Writing Down the Constraints
+
+Given the complexity and the need for precision, let's draft the constraints based on the analysis:
+
+```
+Final Formal Declarative Constraints:
+Init(MPOO_deregisters_at_GO)
+response(MPOO_deregisters_at_GO, GO_verifies_deregistration)
+choice(GO_rejects_deregistration, GO_preliminarily_confirms_deregistration)
+not-co-existence(GO_rejects_deregistration, GO_preliminarily_confirms_deregistration)
+response(GO_obliges_continue_operations, MPOO_confirms_continuation)
+not-response(GO_preliminarily_confirms_deregistration, GO_obliges_continue_operations)
+succession(GO_performs_equipment_acquisition, GO_assigns_GO_as_MPO)
+
+Activities: MPOO_deregisters_at_GO, GO_verifies_deregistration, GO_rejects_deregistration, GO_preliminarily_confirms_deregistration, GO_prepares_readmission, GO_obliges_continue_operations, MPOO_confirms_continuation, GO_performs_equipment_acquisition, GO_assigns_GO_as_MPO, GO_informs_MPOO_about_assignment_change, GO_informs_MSPO_about_assignment, GO_informs_SP_about_assignment
+```
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The process of Vacations Request starts when any employee of the organization submits a vacation request. Once the requirement is registered, the request is received by the immediate supervisor of the employee requesting the vacation. The supervisor must approve or reject the request. If the request is rejected, the application is returned to the applicant / employee who can review the rejection reasons. If the request is approved a notification is generated to the Human Resources Representative, who must complete the respective management procedures..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- submit_vacation_request
+- approve_request
+- reject_request
+- notify_human_resources
+- complete_management_procedures
+- return_to_applicant
+
+From the description, we can derive the following:
+
+1. The process starts with an employee submitting a vacation request.
+2. The immediate supervisor must then approve or reject the request.
+3. If the request is rejected, it is returned to the applicant.
+4. If the request is approved, a notification is generated to the Human Resources Representative, who then completes the management procedures.
+
+Based on these steps, here are the declarative constraints:
+
+- Init(submit_vacation_request)
+- response(submit_vacation_request, approve_request or reject_request)
+- response(reject_request, return_to_applicant)
+- response(approve_request, notify_human_resources)
+- response(notify_human_resources, complete_management_procedures)
+- not-succession(approve_request, reject_request)
+- not-succession(reject_request, approve_request)
+
+However, to accurately represent the given process with the provided templates and without using "or" in the response, we can refine these into:
+
+- Init(submit_vacation_request)
+- succession(submit_vacation_request, approve_request)
+- succession(submit_vacation_request, reject_request)
+- response(approve_request, notify_human_resources)
+- response(reject_request, return_to_applicant)
+- responded-existence(approve_request, complete_management_procedures)
+
+Activities: submit_vacation_request, approve_request, reject_request, return_to_applicant, notify_human_resources, complete_management_procedures
+
+Final Formal Declarative Constraints:
+Init(submit_vacation_request)
+succession(submit_vacation_request, approve_request)
+succession(submit_vacation_request, reject_request)
+response(approve_request, notify_human_resources)
+response(reject_request, return_to_applicant)
+responded-existence(approve_request, complete_management_procedures)
+Activities: submit_vacation_request, approve_request, reject_request, return_to_applicant, notify_human_resources, complete_management_procedures
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   As a basic principle, ACME AG receives invoices on paper or fax. These are received by the Secretariat in the central inbox and forwarded after a short visual inspection to an accounting employee. In `` ACME Financial Accounting ``, a software specially developed for the ACME AG, she identifies the charging suppliers and creates a new instance (invoice).She then checks the invoice items and notes the corresponding cost center at the ACME AG and the related cost center managers for each position on a separate form (`` docket ``). The docket and the copy of the invoice go to the internal mail together and are sent to the first cost center manager to the list. He reviews the content for accuracy after receiving the copy of the invoice. Should everything be in order, he notes his code one on the docket (`` accurate position - AP ``) and returns the copy of the invoice to the internal mail. From it, the copy of the invoice is passed on to the next cost center manager, based on the docket, or if all items are marked correct, sent back to accounting. Therefore, the copy of invoice and the docket gradually move through the hands of all cost center managers until all positions are marked as completely accurate. However, if inconsistencies exist, e.g. because the ordered product is not of the expected quantity or quality, the cost center manager rejects the AP with a note and explanatory statement on the docket, and the copy of the invoice is sent back to accounting directly. Based on the statements of the cost center managers, she will proceede with the clarification with the vendor, but, if necessary, she consults the cost center managers by telephone or e-mail again. When all inconsistencies are resolved, the copy of the invoice is sent to the cost center managers again, and the process continues. After all invoice items are AP, the accounting employee forwards the copy of the invoice to the commercial manager. He makes the commercial audit and issues the approval for payment. If the bill amount exceeds EUR20, the Board wants to check it again (4 - eyes-principle). The copy of the invoice including the docket moves back to the accounting employee in the appropriate signature file. Should there be a complaint during the commercial audit, it will be resolved by the accounting employee with the supplier. After the commercial audit is successfully completed, the accounting employee gives payment instructions and closes the instance in `` ACME financial accounting ``..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the key activitiesmentioned:
+
+- Receiving invoices
+- Forwarding to accounting employee
+- Identifying charging suppliers and creating a new instance (invoice)
+- Checking invoice items and noting corresponding cost center and managers
+- Sending docket and invoice copy to cost center managers
+- Reviewing by cost center managers
+- Noting accuracy (AP) or rejecting with notes
+- Clarification with vendors and cost center managers
+- Commercial audit
+- Approval for payment
+- Payment instructions and closing the instance
+
+Let's denote these activities with more formal names for simplicity:
+
+- receive_invoice
+- forward_to_accounting
+- create_invoice_instance
+- check_invoice_items
+- send_to_cost_center_managers
+- review_by_cost_center_managers
+- note_accuracy
+- reject_with_notes
+- clarify_with_vendors
+- commercial_audit
+- approve_payment
+- give_payment_instructions
+
+Based on the description, here are some declarative constraints:
+
+1. **receive_invoice** must occur first.
+   - Init(receive_invoice)
+
+2. After **receive_invoice**, **forward_to_accounting** must happen.
+   - response(receive_invoice, forward_to_accounting)
+
+3. **create_invoice_instance** happens after **forward_to_accounting**.
+   - response(forward_to_accounting, create_invoice_instance)
+
+4. **check_invoice_items** occurs after **create_invoice_instance**.
+   - response(create_invoice_instance, check_invoice_items)
+
+5. **send_to_cost_center_managers** happens after **check_invoice_items**.
+   - response(check_invoice_items, send_to_cost_center_managers)
+
+6. **review_by_cost_center_managers** occurs after **send_to_cost_center_managers**.
+   - response(send_to_cost_center_managers, review_by_cost_center_managers)
+
+7. If **reject_with_notes** occurs, then **clarify_with_vendors** must happen before sending back to cost center managers.
+   - response(reject_with_notes, clarify_with_vendors)
+
+8. **note_accuracy** and **reject_with_notes** are alternatives but both must occur at some point for different items.
+   - choice(note_accuracy, reject_with_notes)
+   - exclusive-choice(note_accuracy, reject_with_notes)
+
+9. **commercial_audit** occurs after all positions are marked accurate.
+   - precedence(note_accuracy, commercial_audit)
+
+10. **approve_payment** happens after **commercial_audit**.
+    - response(commercial_audit, approve_payment)
+
+11. **give_payment_instructions** occurs after **approve_payment**.
+    - response(approve_payment, give_payment_instructions)
+
+12. A and B never occur together (e.g., **reject_with_notes** and **note_accuracy** for the same item).
+    - not-co-existence(reject_with_notes, note_accuracy)
+
+**Activities: receive_invoice, forward_to_accounting, create_invoice_instance, check_invoice_items, send_to_cost_center_managers, review_by_cost_center_managers, note_accuracy, reject_with_notes, clarify_with_vendors, commercial_audit, approve_payment, give_payment_instructions**
+
+**Final Formal Declarative Constraints:**
+1. Init(receive_invoice)
+2. response(receive_invoice, forward_to_accounting)
+3. response(forward_to_accounting, create_invoice_instance)
+4. response(create_invoice_instance, check_invoice_items)
+5. response(check_invoice_items, send_to_cost_center_managers)
+6. response(send_to_cost_center_managers, review_by_cost_center_managers)
+7. response(reject_with_notes, clarify_with_vendors)
+8. choice(note_accuracy, reject_with_notes)
+9. exclusive-choice(note_accuracy, reject_with_notes)
+10. precedence(note_accuracy, commercial_audit)
+11. response(commercial_audit, approve_payment)
+12. response(approve_payment, give_payment_instructions)
+13. not-co-existence(reject_with_notes, note_accuracy)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The first step is to determine contact details of potential customers. This can be achieved in several ways. Sometimes, we buy details for cold calls, sometimes, our marketing staff participates in exhibitions and sometimes, you just happen to know somebody, who is interested in the product. Then we start calling the customer. That is done by the call center staff. They are determining the contact person and the budget which would be available for the project. Of course, asking the customer whether he is generally interested is also important. If this is not the case, we leave him alone, except if the potential project budget is huge. Then the head of development personally tries to acquire the customer. Ifthe customer is interested in the end, the next step is a detailed online presentation. It is given either by a sales representative or by a pre-sales employee in case of a more technical presentation. Afterwards we are waiting for the customer to come back to us. If we are not contacted within 2 weeks, a sales representative is calling the customer. The last phase is the creation of a quotation..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- determine_contact_details
+- buy_details_for_cold_calls
+- participate_in_exhibitions
+- know_somebody_interested
+- start_calling_customer
+- determine_contact_person
+- determine_budget
+- ask_customer_interested
+- head_of_development_acquires_customer
+- detailed_online_presentation
+- sales_representative_presentation
+- pre_sales_employee_presentation
+- wait_for_customer_response
+- follow_up_call
+- create_quotation
+
+Based on the process description, here are the declarative constraints:
+
+```
+Final Formal Declarative Constraints:
+existence(determine_contact_details)
+existence(start_calling_customer)
+existence(detailed_online_presentation)
+existence(create_quotation)
+
+response(determine_contact_details, start_calling_customer)
+response(start_calling_customer, ask_customer_interested)
+response(ask_customer_interested, detailed_online_presentation)
+
+precedence(head_of_development_acquires_customer, detailed_online_presentation)
+not-succession(wait_for_customer_response, create_quotation)
+
+co-existence(participate_in_exhibitions, determine_contact_details)
+co-existence(know_somebody_interested, determine_contact_details)
+co-existence(buy_details_for_cold_calls, determine_contact_details)
+
+not-co-existence(determine_budget, detailed_online_presentation)
+
+succession(detailed_online_presentation, create_quotation)
+
+alternate-succession(wait_for_customer_response, follow_up_call)
+
+Activities: determine_contact_details, buy_details_for_cold_calls, participate_in_exhibitions, know_somebody_interested, start_calling_customer, determine_contact_person, determine_budget, ask_customer_interested, head_of_development_acquires_customer, detailed_online_presentation, sales_representative_presentation, pre_sales_employee_presentation, wait_for_customer_response, follow_up_call, create_quotation
+```
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   After the Expense Report is received, a new account must be created if the employee does not already have one. The report is then reviewed for automatic approval. Amounts under $200 are automatically approved, whereas amounts equal to or over $200 require approval of the supervisor. In case of rejection, the employee must receive a rejection notice by email. Otherwise, the reimbursement goes to the employees direct deposit bank account. If the request is not completed in 7 days, then the employee must receive an approval in progress email. If the request is not finished within 30 days, then the process is stopped and the employee receives an email cancellation notice and must re-submit the expense report..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Receiving the Expense Report
+- Creating a new account
+- Reviewing the report
+- Automatic approval
+- Approval of the supervisor
+- Rejection
+- Sending a rejection notice by email
+- Reimbursement to the employee's direct deposit bank account
+- Sending an approval in progress email
+- Stopping the process
+- Sending an email cancellation notice
+- Re-submitting the expense report
+
+Let's denote these activities with simpler terms for clarity:
+
+- expense_report_received
+- create_account
+- review_report
+- automatic_approval
+- supervisor_approval
+- rejection
+- send_rejection_notice
+- reimbursement
+- send_approval_in_progress_email
+- stop_process
+- send_cancellation_notice
+- resubmit_expense_report
+
+Based on the process description, here are the declarative constraints:
+
+1. The process starts with receiving the expense report.
+   - Init(expense_report_received)
+
+2. If the expense report is received, then a new account must be created if the employee does not already have one.
+   - response(expense_report_received, create_account)
+
+3. The report is then reviewed for automatic approval.
+   - succession(expense_report_received, review_report)
+
+4. Amounts under $200 are automatically approved.
+   - automatic_approval
+
+5. Amounts equal to or over $200 require approval of the supervisor.
+   - response(review_report, supervisor_approval)
+
+6. In case of rejection, the employee must receive a rejection notice by email.
+   - response(rejection, send_rejection_notice)
+
+7. If the request is not completed in 7 days, then the employee must receive an approval in progress email.
+   - not-succession(review_report, reimbursement) and response(review_report, send_approval_in_progress_email)
+
+8. If the request is not finished within 30 days, then the process is stopped and the employee receives an email cancellation notice and must re-submit the expense report.
+   - not-succession(review_report, reimbursement) and response(review_report, stop_process) and response(stop_process, send_cancellation_notice) and response(send_cancellation_notice, resubmit_expense_report)
+
+However, these can be simplified and directly related to the given templates:
+
+**Temporary Declarative Constraints:**
+- Init(expense_report_received)
+- response(expense_report_received, create_account)
+- succession(expense_report_received, review_report)
+- response(review_report, automatic_approval)
+- response(review_report, supervisor_approval)
+- response(rejection, send_rejection_notice)
+- not-response(rejection, reimbursement)
+- response(review_report, send_approval_in_progress_email)
+- not-chain-response(review_report, reimbursement)
+- response(review_report, stop_process)
+- response(stop_process, send_cancellation_notice)
+- response(send_cancellation_notice, resubmit_expense_report)
+
+**Final Formal Declarative Constraints:**
+- Init(expense_report_received)
+- response(expense_report_received, create_account)
+- succession(expense_report_received, review_report)
+- at-most(supervisor_approval)
+- response(rejection, send_rejection_notice)
+- not-response(rejection, reimbursement)
+- not-succession(review_report, reimbursement)
+- response(review_report, send_approval_in_progress_email)
+- not-chain-response(review_report, reimbursement)
+- response(review_report, stop_process)
+- response(stop_process, send_cancellation_notice)
+- response(send_cancellation_notice, resubmit_expense_report)
+- succession(rejection, send_rejection_notice)
+- existence(send_rejection_notice)
+- existence(reimbursement)
+- existence(send_approval_in_progress_email)
+- existence(send_cancellation_notice)
+
+**Activities:** expense_report_received, create_account, review_report, automatic_approval, supervisor_approval, rejection, send_rejection_notice, reimbursement, send_approval_in_progress_email, stop_process, send_cancellation_notice, resubmit_expense_report
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The MPON requests a device takeover bid of the MPOO. The MPOO sends a tender for the equipment takeover to the MPON.The MPON places an order at the MPOO. The MPOO confirms the order of the MPON and sends the master data..
+
+
+💻 AI: Based on the provided process description, I'll extract the declarative constraints.
+
+## Step 1: Identify Activities
+The activities mentioned in the process description are:
+- MPON requests a device takeover bid
+- MPOO sends a tender for the equipment takeover
+- MPON places an order
+- MPOO confirms the order and sends the master data
+
+## Step 2: Interpret the Process Description
+From the description, we can infer the following sequence and relationships:
+1. The process starts with "MPON requests a device takeover bid".
+2. This is followed by "MPOO sends a tender for the equipment takeover".
+3. Then, "MPON places an order".
+4. Finally, "MPOO confirms the order and sends the master data".
+
+## Step 3: Determine Declarative Constraints
+Based on the sequence:
+- "MPON requests a device takeover bid" must occur before "MPOO sends a tender for the equipment takeover".
+- "MPOO sends a tender for the equipment takeover" must occur before "MPON places an order".
+- "MPON places an order" must occur before "MPOO confirms the order and sends the master data".
+
+## 4: Formalize Constraints
+Using the given templates:
+- precedence(MPON requests a device takeover bid, MPOO sends a tender for the equipment takeover)
+- precedence(MPOO sends a tender for the equipment takeover, MPON places an order)
+- precedence(MPON places an order, MPOO confirms the order and sends the master data)
+- succession(MPON requests a device takeover bid, MPOO confirms the order and sends the master data)
+
+## 5: Consider Existence and Other Constraints
+- All activities must occur at least once: existence(MPON requests a device takeover bid), existence(MPOO sends a tender for the equipment takeover), existence(MPON places an order), existence(MPOO confirms the order and sends the master data)
+
+## 6: Compile Final Constraints
+Given the process description and analysis, here are the declarative constraints in a simplified format:
+
+```
+Final Formal Declarative Constraints:
+precedence(MPON requests a device takeover bid, MPOO sends a tender for the equipment takeover)
+precedence(MPOO sends a tender for the equipment takeover, MPON places an order)
+precedence(MPON places an order, MPOO confirms the order and sends the master data)
+succession(MPON requests a device takeover bid, MPOO confirms the order and sends the master data)
+existence(MPON requests a device takeover bid)
+existence(MPOO sends a tender for the equipment takeover)
+existence(MPON places an order)
+existence(MPOO confirms the order and sends the master data)
+```
+
+Activities: MPON requests a device takeover bid, MPOO sends a tender for the equipment takeover, MPON places an order, MPOO confirms the order and sends the master data
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   Each morning, the files which have yet to be processed need to be checked, to make sure they are in order for the court hearing that day. If some files are missing, a search is initiated, otherwise the files can be physically tracked tothe intended location. Once all the files are ready, these are handed to the Associate, and meantime the Judgeis Lawlist is distributed to the relevant people. Afterwards, the directions hearings are conducted..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Checking files
+- Searching for missing files
+- Physically tracking files
+- Handing files to the Associate
+- Distributing the Judge's Lawlist
+- Conducting directions hearings
+
+Based on the description, we can derive the following constraints:
+
+1. The process starts with checking files, so we have an **Init** constraint:
+   - Init(checking_files)
+
+2. If files are missing, a search is initiated. This implies a **response** relationship:
+   - response(checking_files, searching_for_missing_files)
+
+3. If no files are missing, the files can be physically tracked. This doesn't directly translate to one of our templates but implies an **existence** or a sequence. However, given that "searching_for_missing_files" and "physically_tracking_files" seem to be alternatives based on the outcome of "checking_files", let's consider a **choice** constraint for nowand refine as needed:
+   - choice(searching_for_missing_files, physically_tracking_files)
+
+4. All files must be ready before they are handed to the Associate. This implies that both "searching_for_missing_files" and "physically_tracking_files" must occur before "handing_files_to_the_Associate", suggesting a **succession** or **co-existence** isn't directly applicable without more sequence info. However, we know:
+   - succession(checking_files, handing_files_to_the_Associate)
+   - succession(searching_for_missing_files, handing_files_to_the_Associate)
+   - succession(physically_tracking_files, handing_files_to_the_Associate)
+
+5. The Judge's Lawlist is distributed. There's no direct constraint here but it happens alongside or after files are handed to the Associate:
+   - succession(handing_files_to_the_Associate, distributing_the_Judges_Lawlist)
+
+6. Directions hearings are conducted after the above steps:
+   - succession(distributing_the_Judges_Lawlist, conducting_directions_hearings)
+
+**Activities: checking_files, searching_for_missing_files, physically_tracking_files, handing_files_to_the_Associate, distributing_the_Judges_Lawlist, conducting_directions_hearings**
+
+Given the information and focusing on the required format for the final constraints:
+
+```
+Final Formal Declarative Constraints:
+Init(checking_files)
+response(checking_files, searching_for_missing_files)
+succession(checking_files, handing_files_to_the_Associate)
+succession(searching_for_missing_files, handing_files_to_the_Associate)
+succession(physically_tracking_files, handing_files_to_the_Associate)
+succession(handing_files_to_the_Associate, distributing_the_Judges_Lawlist)
+succession(distributing_the_Judges_Lawlist, conducting_directions_hearings)
+choice(searching_for_missing_files, physically_tracking_files)
+```
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   Mail from the party is collected on a daily basis by the Mail Processing Unit. Within this unit, the Mail Clerk sorts the unopened mail into the various business areas. The mail is then distributed. When the mail is received by the Registry, it is opened and sorted into groups for distribution, and thus registered in a manual incoming Mail Register. Afterwards, the Assistant Registry Manager within the Registry performs a quality check. If the mail is not compliant, a list of requisition explaining the reason for rejection is compiled and sent back to the party. Otherwise, the matter details (types of action) are captured and provided to the Cashier, who takes the applicable fees attached to the mail. At this point, the Assistant Registry Manager puts the receipt and copied documents into an envelope and posts it to the party. Meantime, the Cashier captures the Party Details and prints the Physical Court File..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Mail collected by Mail Processing Unit
+- Mail sorted by Mail Clerk
+- Mail distributed
+- Mail opened and sorted by Registry
+- Mail registered in manual incoming Mail Register
+- Quality check by Assistant Registry Manager
+- Compilation of rejection list and sent back to party (if mail is not compliant)
+- Matter details captured and provided to Cashier (if mail is compliant)
+- Fees taken by Cashier
+- Receipt and copied documents put into an envelope and posted to the party by Assistant Registry Manager
+- Party Details captured and Physical Court File printed by Cashier
+
+Let's simplify these activities for use in constraints:
+
+1. Collect mail
+2. Sort mail
+3. Distribute mail
+4. Open and sort mail
+5. Register mail
+6. Quality check
+7. Compile rejection list
+8. Capture matter details
+9. Take fees
+10. Post documents
+11. Capture party details
+12. Print physical court file
+
+Based on the description, here are the declarative constraints:
+
+- succession(Collect mail, Sort mail)
+- succession(Sort mail, Distribute mail)
+- succession(Distribute mail, Open and sort mail)
+- succession(Open and sort mail, Register mail)
+- succession(Register mail, Quality check)
+- response(Quality check, Compile rejection list)
+- response(Quality check, Capture matter details)
+- not-co-existence(Compile rejection list, Capture matter details)
+- succession(Capture matter details, Take fees)
+- succession(Take fees, Post documents)
+- succession(Capture party details, Print physical court file)
+- succession(Quality check, Post documents)
+- succession(Capture matter details, Post documents)
+
+However, to accurately represent the process and adhere strictly to the provided templates and instructions, let's refine and formalize the constraints:
+
+**Activities: Collect mail, Sort mail, Distribute mail, Open and sort mail, Register mail, Quality check, Compile rejection list, Capture matter details, Take fees, Post documents, Capture party details, Print physical court file**
+
+**Final Formal Declarative Constraints:**
+
+1. succession(Collect mail, Sort mail)
+2. succession(Sort mail, Distribute mail)
+3. succession(Distribute mail, Open and sort mail)
+4. succession(Open and sort mail, Register mail)
+5. succession(Register mail, Quality check)
+6. response(Quality check, Compile rejection list)
+7. response(Quality check, Capture matter details)
+8. not-co-existence(Compile rejection list, Capture matter details)
+9. succession(Capture matter details, Take fees)
+10. succession(Take fees, Post documents)
+11. succession(Capture party details, Print physical court file)
+12. succession(Quality check, Post documents)
+
+This translation aims to capture the essential flow and relationships described in the process, focusing on the succession, response, and co-existence constraints that directly derive from the provided narrative. Adjustments may be necessary based on further clarification or details about the process.
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The loan approval process starts by receiving a customer request for a loan amount. The risk assessment Web service is invoked to assess the request. If the loan is small and the customer is low risk, the loan is approved. If the customer is high risk, the loan is denied. If the customer needs further review or the loan amount is for $10,000 or more, therequest is sent to the approver Web service. The customer receives feedback from the assessor or approver..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Receiving a customer request for a loan amount
+- Invoking the risk assessment Web service
+- Approving the loan
+- Denying the loan
+- Sending the request to the approver Web service
+- Receiving feedback from the assessor or approver
+
+Let's label these activities for simplicity:
+
+1. Receive customer request = customer_request
+2. Invoke risk assessment = risk_assessment
+3. Approve loan = approve_loan
+4. Deny loan = deny_loan
+5. Send to approver = send_to_approver
+6. Receive feedback = receive_feedback
+
+From the description, we can derive the following:
+
+- The process starts with receiving a customer request, so:
+  - Init(customer_request)
+
+- The risk assessment Web service is invoked after receiving the customer request, suggesting a succession:
+  - succession(customer_request, risk_assessment)
+
+- If the loan is approved or denied, it happens after the risk assessment, suggesting:
+  - response(risk_assessment, approve_loan)
+  - response(risk_assessment, deny_loan)
+  - exclusive-choice(approve_loan, deny_loan)
+
+- The loan being sent to the approver Web service happens if the customer needs further review or the loan amount is $10,000 or more, suggesting:
+  - not-response(risk_assessment, send_to_approver)  # This might not directly follow but let's refine
+  - response(risk_assessment, send_to_approver)  # Actually this could happen
+
+- However, upon careful reading, it seems:
+  - If the loan is small and the customer is low risk, the loan is approved directly.
+  - If the customer is high risk, the loan is denied directly.
+  - For cases needing further review or large loan amounts, it goes to the approver.
+
+- This implies:
+  - not-succession(approve_loan, deny_loan)
+  - not-succession(deny_loan, approve_loan)
+
+- Also:
+  - existence(receive_feedback)
+
+- Feedback can come from either assessor or approver, suggesting:
+  - choice(receive_feedback, receive_feedback) does not apply directly; rather,
+  - succession(send_to_approver, receive_feedback)
+  - succession(risk_assessment, receive_feedback)
+
+Let's re-evaluate and simplify:
+
+## Step 1: List activities
+Activities: customer_request, risk_assessment, approve_loan, deny_loan, send_to_approver, receive_feedback
+
+## Step 2: Define Constraints
+- Init(customer_request)
+- succession(customer_request, risk_assessment)
+- response(risk_assessment, approve_loan)
+- response(risk_assessment, deny_loan)
+- exclusive-choice(approve_loan, deny_loan)
+- response(risk_assessment, send_to_approver)
+- existence(receive_feedback)
+- succession(send_to_approver, receive_feedback)
+- succession(risk_assessment, receive_feedback)
+
+## Step 3: Finalize
+Given the complexity and upon review, let's ensure we've captured the essence:
+
+Final Formal Declarative Constraints:
+Init(customer_request)
+succession(customer_request, risk_assessment)
+response(risk_assessment, approve_loan)
+response(risk_assessment, deny_loan)
+exclusive-choice(approve_loan, deny_loan)
+response(risk_assessment, send_to_approver)
+existence(receive_feedback)
+succession(send_to_approver, receive_feedback)
+succession(risk_assessment, receive_feedback)
+not-succession(approve_loan, deny_loan)
+not-succession(deny_loan, approve_loan)
+
+Activities: customer_request, risk_assessment, approve_loan, deny_loan, send_to_approver, receive_feedback
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   After a claim is registered, it is examined by a claims officer. The claims officer then writes a settlement recommendation. This recommendation is then checked by a senior claims officer who may mark the claim as OK or Not OK. If the claim is marked as Not OK, it is sent back to the claims officer and the recommendation is repeated. If the claim is OK, the claim handling process proceeds..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- register_claim
+- examine_claim
+- write_settlement_recommendation
+- check_recommendation
+- mark_claim_OK
+- mark_claim_Not_OK
+- send_back_to_claims_officer
+- proceed_claim_handling
+
+The process description provided can be broken down into several steps and conditions:
+
+1. **register_claim** is followed by **examine_claim**.
+2. **examine_claim** leads to **write_settlement_recommendation**.
+3. **write_settlement_recommendation** is then followed by **check_recommendation**.
+4. After **check_recommendation**, there are two possible paths:
+   - If the claim is marked as **OK** (let's denote this as **mark_claim_OK**), the process proceeds to **proceed_claim_handling**.
+   - If marked as **Not OK** (denoted as **mark_claim_Not_OK**), it is sent back to the claims officer (**send_back_to_claims_officer**), implying a loop back to **write_settlement_recommendation**.
+
+Based on the description and the given constraint templates, here are the declarative constraints:
+
+- **succession(register_claim, examine_claim)**: If a claim is registered, it must be examined.
+- **succession(examine_claim, write_settlement_recommendation)**: After examination, a settlement recommendation must be written.
+- **succession(write_settlement_recommendation, check_recommendation)**: The recommendation must be checked after it's written.
+- **response(mark_claim_Not_OK, send_back_to_claims_officer)**: If a claim is marked as Not OK, it must be sent back tothe claims officer.
+- **not-succession(send_back_to_claims_officer, check_recommendation)**: The claim cannot be checked immediately after being sent back.
+- **response(mark_claim_OK, proceed_claim_handling)**: If a claim is marked as OK, the claim handling process must proceed.
+- **not-co-existence(mark_claim_OK, mark_claim_Not_OK)**: A claim cannot be both marked OK and Not OK.
+- **alternate-succession(check_recommendation, mark_claim_OK) and alternate-succession(check_recommendation, mark_claim_Not_OK)**: After a recommendation is checked, it must be marked either OK or Not OK, alternating based on the condition.
+
+However, upon closer inspection and to adhere strictly to the provided templates and instructions:
+
+**Activities: register_claim, examine_claim, write_settlement_recommendation, check_recommendation, mark_claim_OK, mark_claim_Not_OK, send_back_to_claims_officer, proceed_claim_handling**
+
+**Final Formal Declarative Constraints:**
+
+- succession(register_claim, examine_claim)
+- succession(examine_claim, write_settlement_recommendation)
+- succession(write_settlement_recommendation, check_recommendation)
+- response(mark_claim_Not_OK, send_back_to_claims_officer)
+- response(mark_claim_OK, proceed_claim_handling)
+- not-co-existence(mark_claim_OK, mark_claim_Not_OK)
+- not-succession(mark_claim_OK, send_back_to_claims_officer)
+- not-succession(mark_claim_Not_OK, proceed_claim_handling)
+- alternate-response(check_recommendation, mark_claim_OK)
+- alternate-response(check_recommendation, mark_claim_Not_OK)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The party sends a warrant possession request asking a warrant to be released. The Client Service Back Office as partof the Small Claims Registry Operations receives the request and retrieves the SCT file. Then, the SCT Warrant Possession is forwarded to Queensland Police. The SCT physical file is stored by the Back Office awaiting a report to be sent bythe Police. When the report is received, the respective SCT file is retrieved. Then, Back Office attaches the new SCT document, and stores the expanded SCT physical file. After that, some other MC internal staff receives the physical SCT file (out of scope)..
+
+
+💻 AI: Based on the provided process description, I'll extract the declarative constraints.
+
+**Temporary Declarative Constraints:**
+
+* precedence(retrieve_SCT_file, forward_SCT_Warrant_Possession)
+* response(retrieve_SCT_file, store_SCT_physical_file)
+* response(forward_SCT_Warrant_Possession, store_SCT_physical_file)
+* response(receive_report, retrieve_SCT_file)
+* response(retrieve_SCT_file, attach_new_SCT_document)
+* response(attach_new_SCT_document, store_expanded_SCT_physical_file)
+
+**Activities:** warrant_possession_request, retrieve_SCT_file, forward_SCT_Warrant_Possession, store_SCT_physical_file,receive_report, attach_new_SCT_document, store_expanded_SCT_physical_file
+
+**Final Formal Declarative Constraints:**
+
+* precedence(retrieve_SCT_file, forward_SCT_Warrant_Possession)
+* response(retrieve_SCT_file, store_SCT_physical_file)
+* response(forward_SCT_Warrant_Possession, store_SCT_physical_file)
+* response(receive_report, retrieve_SCT_file)
+* response(retrieve_SCT_file, attach_new_SCT_document)
+* response(attach_new_SCT_document, store_expanded_SCT_physical_file)
+* succession(warrant_possession_request, retrieve_SCT_file)
+* existence(retrieve_SCT_file)
+* existence(forward_SCT_Warrant_Possession)
+* existence(store_SCT_physical_file)
+* existence(receive_report)
+* existence(attach_new_SCT_document)
+* existence(store_expanded_SCT_physical_file)
+
+Please let me know if you'd like me to clarify or modify anything.
+
+Also, I assumed that "SCT" is not an activity, but rather part of the activity names. If that's not the case, please let me know and I'll adjust the constraints accordingly.
+
+Additionally, I did not include "MC internal staff receives the physical SCT file" as it is mentioned as "out of scope". If you want me to include it, please provide more context.
+
+If everything looks correct, I'll be happy to provide the final output.
+
+Activities: warrant_possession_request, retrieve_SCT_file, forward_SCT_Warrant_Possession, store_SCT_physical_file, receive_report, attach_new_SCT_document, store_expanded_SCT_physical_file
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The Police Report related to the car accident is searched within the Police Report database and put in a file together with the Claim Documentation. This file serves as input to a claims handler who calculates an initial claim estimate.Then, the claims handler creates an Action Plan based on an Action Plan Checklist available in the Document Management system. Based on the Action Plan, a claims manager tries to negotiate a settlement on the claim estimate. The claimant is informed of the outcome, which ends the process..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Searching Police Report
+- Putting file together
+- Calculating initial claim estimate
+- Creating Action Plan
+- Negotiating settlement
+- Informing claimant
+
+These activities can be represented as:
+
+- search_police_report
+- create_file
+- calculate_claim_estimate
+- create_action_plan
+- negotiate_settlement
+- inform_claimant
+
+Based on the process description, we can derive the following sequence and relationships:
+
+1. The process starts with searching the police report and creating a file.
+2. The claims handler calculates an initial claim estimate.
+3. An Action Plan is created.
+4. A settlement is negotiated based on the Action Plan.
+5. The claimant is informed of the outcome.
+
+From this, we can infer:
+
+- The process starts with `search_police_report` and `create_file`, but since `Init(a)` requires a single activity, we cannot directly apply it here without assuming an order or combining activities.
+
+## Step 1: Identify Direct Successions
+Given activities and their order, direct successions can be identified:
+- `search_police_report` and `create_file` seem to happen in that order or together.
+- `create_file` is followed by `calculate_claim_estimate`.
+- `calculate_claim_estimate` is followed by `create_action_plan`.
+- `create_action_plan` is followed by `negotiate_settlement`.
+- `negotiate_settlement` is followed by `inform_claimant`.
+
+## Step 2: Determine Constraints
+Based on the sequence:
+- `response(create_file, calculate_claim_estimate)`: If `create_file` occurs, then `calculate_claim_estimate` occurs after it.
+- `response(calculate_claim_estimate, create_action_plan)`: If `calculate_claim_estimate` occurs, then `create_action_plan` occurs after it.
+- `response(create_action_plan, negotiate_settlement)`: If `create_action_plan` occurs, then `negotiate_settlement` occurs after it.
+- `response(negotiate_settlement, inform_claimant)`: If `negotiate_settlement` occurs, then `inform_claimant` occurs after it.
+
+## 3: Consider Existence and Other Constraints
+- `existence(search_police_report)`: The police report must be searched at least once.
+- `existence(create_file)`: A file must be created at least once.
+- `existence(calculate_claim_estimate)`: An initial claim estimate must be calculated.
+- `existence(create_action_plan)`: An Action Plan must be created.
+- `existence(negotiate_settlement)`: A settlement must be negotiated.
+- `existence(inform_claimant)`: The claimant must be informed.
+
+## 4: Precedence and Succession
+- `precedence(search_police_report, create_file)`: `create_file` only if preceded by `search_police_report`.
+- `succession(calculate_claim_estimate, create_action_plan)`: If `calculate_claim_estimate` occurs, then `create_action_plan` must occur, and vice versa.
+
+## 5: Compile Constraints
+Given the complexity and the requirement for a formal declarative constraint format, let's finalize:
+
+Activities: search_police_report, create_file, calculate_claim_estimate, create_action_plan, negotiate_settlement, inform_claimant
+
+Final Formal Declarative Constraints:
+- existence(search_police_report)
+- existence(create_file)
+- existence(calculate_claim_estimate)
+- existence(create_action_plan)
+- existence(negotiate_settlement)
+- existence(inform_claimant)
+- response(create_file, calculate_claim_estimate)
+- response(calculate_claim_estimate, create_action_plan)
+- response(create_action_plan, negotiate_settlement)
+- response(negotiate_settlement, inform_claimant)
+- precedence(search_police_report, create_file)
+- succession(calculate_claim_estimate, create_action_plan)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   The GO requests the measurements to the MSP. The MSP checks the received request. The MSP denies the request of the GO or the MSP performs the measurement. The MSP informs the GO about the failure of the reading or the MSP transmits themeasured values to the GO. The GO processes the measured values. The GO sends the changed values to the MSP. The GO transmit the readings to the SP..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities involved:
+
+- GO requests the measurements to the MSP: request_measurement
+- MSP checks the received request: check_request
+- MSP denies the request of the GO: deny_request
+- MSP performs the measurement: perform_measurement
+- MSP informs the GO about the failure of the reading: inform_failure
+- MSP transmits the measured values to the GO: transmit_measured_values
+- GO processes the measured values: process_measured_values
+- GO sends the changed values to the MSP: send_changed_values
+- GO transmits the readings to the SP: transmit_readings
+
+Activities: request_measurement, check_request, deny_request, perform_measurement, inform_failure, transmit_measured_values, process_measured_values, send_changed_values, transmit_readings
+
+Based on the process description, we can derive the following sequence and constraints:
+
+1. The process starts with `request_measurement`.
+   - Init(request_measurement)
+
+2. `check_request` must occur after `request_measurement` and before either `deny_request` or `perform_measurement`.
+   - precedence(check_request, deny_request)
+   - precedence(check_request, perform_measurement)
+
+3. If `deny_request` occurs, it must be after `check_request`.
+   - response(check_request, deny_request)
+
+4. If `perform_measurement` occurs, it must be after `check_request`.
+   - response(check_request, perform_measurement)
+
+5. After `perform_measurement`, either `inform_failure` or `transmit_measured_values` must occur.
+   - exclusive-choice(inform_failure, transmit_measured_values)
+
+6. If `transmit_measured_values` occurs, then `process_measured_values` must occur after it.
+   - response(transmit_measured_values, process_measured_values)
+
+7. `send_changed_values` must occur after `process_measured_values`.
+   - response(process_measured_values, send_changed_values)
+
+8. Finally, `transmit_readings` must occur after `send_changed_values`.
+   - response(send_changed_values, transmit_readings)
+
+However, upon closer inspection and to adhere strictly to the provided templates and to ensure accuracy, let's refine and directly list the constraints based on the activities and their logical sequence:
+
+Final Formal Declarative Constraints:
+- Init(request_measurement)
+- precedence(check_request, deny_request)
+- precedence(check_request, perform_measurement)
+- response(check_request, deny_request)
+- response(check_request, perform_measurement)
+- exclusive-choice(inform_failure, transmit_measured_values)
+- response(transmit_measured_values, process_measured_values)
+- response(process_measured_values, send_changed_values)
+- response(send_changed_values, transmit_readings)
+- succession(request_measurement, check_request)
+- succession(perform_measurement, inform_failure)
+- succession(perform_measurement, transmit_measured_values)
+- succession(transmit_measured_values, process_measured_values)
+- succession(process_measured_values, send_changed_values)
+- succession(send_changed_values, transmit_readings)
+
+Activities: request_measurement, check_request, deny_request, perform_measurement, inform_failure, transmit_measured_values, process_measured_values, send_changed_values, transmit_readings
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   An employee purchases a product or service he requires. For instance, a sales person on a trip rents a car. The employee submits an expense report with a list of items, along with the receipts for each item. A supervisor reviews the expense report and approves or rejects the report. Since the company has expense rules, there are circumstances where the supervisor can accept or reject the report upon first inspection. These rules could be automated, to reduce the workload on the supervisor. If the supervisor rejects the report, the employee, who submitted it, is given a chance to edit it, for example to correct errors or better describe an expense. If the supervisor approves the report, it goes to the treasurer. The treasurer checks that all the receipts have been submitted and match the items on the list. If all is in order,the treasurer accepts the expenses for processing (including, e.g., payment or refund, and accounting). If receipts aremissing or do not match the report, he sends it back to the employee. If a report returns to the employee for corrections, it must again go to a supervisor, even if the supervisor previously approved the report. If the treasurer accepts the expenses for processing, the report moves to an automatic activity that links to a payment system. The process waits for the payment confirmation. After the payment is confirmed, the process ends..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the key activitiesmentioned:
+
+- Purchasing a product or service
+- Submitting an expense report
+- Reviewing the expense report
+- Approving the expense report
+- Rejecting the expense report
+- Editing the expense report
+- Checking receipts
+- Accepting expenses for processing
+- Sending back for corrections
+- Linking to a payment system
+- Waiting for payment confirmation
+- Ending the process
+
+Let's map these to more formal activity names for clarity and simplicity:
+
+- purchase_product
+- submit_expense_report
+- review_expense_report
+- approve_expense_report
+- reject_expense_report
+- edit_expense_report
+- check_receipts
+- accept_expenses
+- send_back_for_corrections
+- link_to_payment_system
+- wait_for_payment_confirmation
+- end_process
+
+From the process description, we can derive the following declarative constraints:
+
+1. **submit_expense_report** must occur before **review_expense_report**.
+   - precedence(submit_expense_report, review_expense_report)
+
+2. **review_expense_report** leads to either **approve_expense_report** or **reject_expense_report**.
+   - choice(approve_expense_report, reject_expense_report)
+
+3. If **reject_expense_report**, then **edit_expense_report** must occur.
+   - response(reject_expense_report, edit_expense_report)
+
+4. After **edit_expense_report**, the report must go back to **review_expense_report**.
+   - succession(edit_expense_report, review_expense_report)
+
+5. If **approve_expense_report**, then **check_receipts** must occur.
+   - response(approve_expense_report, check_receipts)
+
+6. **check_receipts** leads to either **accept_expenses** or **send_back_for_corrections**.
+   - choice(accept_expenses, send_back_for_corrections)
+
+7. If **send_back_for_corrections**, then the report must go back to **edit_expense_report**.
+   - response(send_back_for_corrections, edit_expense_report)
+
+8. **accept_expenses** must lead to **link_to_payment_system**.
+   - succession(accept_expenses, link_to_payment_system)
+
+9. **link_to_payment_system** must be followed by **wait_for_payment_confirmation**.
+   - succession(link_to_payment_system, wait_for_payment_confirmation)
+
+10. The process ends with **end_process** after **wait_for_payment_confirmation**.
+    - succession(wait_for_payment_confirmation, end_process)
+
+11. **submit_expense_report** must occur before **review_expense_report** and the whole process flow makes **submit_expense_report** an initial activity in many traces.
+    - Init(submit_expense_report)
+
+However, careful examination suggests that **Init(submit_expense_report)** might not perfectly align with all possible interpretations of the process start, but based on the description, **submit_expense_report** seems like a reasonable starting point.
+
+**Activities: submit_expense_report, review_expense_report, approve_expense_report, reject_expense_report, edit_expense_report, check_receipts, accept_expenses, send_back_for_corrections, link_to_payment_system, wait_for_payment_confirmation, end_process, purchase_product**
+
+**Final Formal Declarative Constraints:**
+
+- precedence(submit_expense_report, review_expense_report)
+- choice(approve_expense_report, reject_expense_report)
+- response(reject_expense_report, edit_expense_report)
+- succession(edit_expense_report, review_expense_report)
+- response(approve_expense_report, check_receipts)
+- choice(accept_expenses, send_back_for_corrections)
+- response(send_back_for_corrections, edit_expense_report)
+- succession(accept_expenses, link_to_payment_system)
+- succession(link_to_payment_system, wait_for_payment_confirmation)
+- succession(wait_for_payment_confirmation, end_process)
+- Init(submit_expense_report)
+
+
+🧠 You: save
+
+
+
+
+
+
+ 💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
+   Once you are satisfied with the results, please type 'save' to save constraints and procede to the next phrase.
+   If you would like to close the chat please type 'exit'
+   It is currently analysing the dataset phrase:
+   A small company manufactures customized bicycles. Whenever the sales department receives an order, a new process instance is created. A member of the sales department can then reject or accept the order for a customized bike. In the former case, the process instance is finished. In the latter case, the storehouse and the engineering department are informed. The storehouse immediately processes the part list of the order and checks the required quantity of each part. If the part is available in-house, it is reserved. If it is not available, it is back-ordered. This procedure is repeated foreach item on the part list. In the meantime, the engineering department prepares everything for the assembling of the ordered bicycle. If the storehouse has successfully reserved or back-ordered every item of the part list and the preparation activity has finished, the engineering department assembles the bicycle. Afterwards, the sales department ships the bicycle to the customer and finishes the process instance..
+
+
+💻 AI: To translate the given process description into declarative constraints, let's first identify the activities mentioned:
+
+- Receiving an order
+- Rejecting an order
+- Accepting an order
+- Informing the storehouse and engineering department
+- Processing the part list
+- Reserving or back-ordering parts
+- Preparing for assembly
+- Assembling the bicycle
+- Shipping the bicycle
+
+These activities can be labeled as:
+
+- receive_order
+- reject_order
+- accept_order
+- inform_storehouse_engineering
+- process_part_list
+- reserve_or_backorder_parts
+- prepare_assembly
+- assemble_bicycle
+- ship_bicycle
+
+From the description, we can derive the following constraints:
+
+1. **The process starts with receiving an order.**
+   - Init(receive_order)
+
+2. **If an order is rejected, the process instance is finished.**
+   - response(reject_order, (ship_bicycle or end_process)) is not directly applicable since "end_process" isn't an activity; instead, we focus on the sequence.
+
+3. **If an order is accepted, the storehouse and engineering department are informed.**
+   - response(accept_order, inform_storehouse_engineering)
+
+4. **The storehouse processes the part list and reserves or back-orders parts.**
+   - succession(inform_storehouse_engineering, process_part_list)
+   - succession(process_part_list, reserve_or_backorder_parts)
+
+5. **The engineering department prepares for assembly.**
+   - existence(prepare_assembly)
+
+6. **If the storehouse has successfully processed the part list and the engineering department has finished preparation, the bicycle is assembled.**
+   - succession(reserve_or_backorder_parts, assemble_bicycle) and succession(prepare_assembly, assemble_bicycle)
+
+7. **After assembling the bicycle, it is shipped.**
+   - response(assemble_bicycle, ship_bicycle)
+
+8. **Either the order is rejected or accepted (but not both in the same trace).**
+   - exclusive-choice(reject_order, accept_order)
+
+9. **If an order is accepted, it must be followed by informing the storehouse and engineering department, and eventually by shipping the bicycle.**
+   - not-response(accept_order, (inform_storehouse_engineering or ship_bicycle))
+
+However, to accurately represent the process and adhere strictly to the given constraint templates and instructions:
+
+**Activities: receive_order, reject_order, accept_order, inform_storehouse_engineering, process_part_list, reserve_or_backorder_parts, prepare_assembly, assemble_bicycle, ship_bicycle**
+
+**Final Formal Declarative Constraints:**
+
+- Init(receive_order)
+- response(reject_order, end_process)
+- response(accept_order, inform_storehouse_engineering)
+- succession(inform_storehouse_engineering, process_part_list)
+- existence(prepare_assembly)
+- response(prepare_assembly, assemble_bicycle)
+- response(assemble_bicycle, ship_bicycle)
+- exclusive-choice(reject_order, accept_order)
+- not-succession(accept_order, reject_order)
+- chain-succession(inform_storehouse_engineering, process_part_list)
+
+
+🧠 You: save

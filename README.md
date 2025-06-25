@@ -8,3 +8,5 @@ In the **Result folder** can be found three different csv files containing the r
 1. Analysis with *basic constraints* templates 
 2. Analysis with *additional constraints* templates 
 3. Analysis with *full constraints* and hirearchical rules (meta constraints).
+
+The **Complete Interactions folder** contains the whole comand line interaction and LLM complete responses for each process description.
