@@ -1,15 +1,7 @@
 Microsoft Windows [Versione 10.0.26100.4061]
 (c) Microsoft Corporation. Tutti i diritti riservati.
 
-C:\Users\irene>cd C:\Users\irene\Personale\unibz\Thesis\Thesis-Repository
-
-C:\Users\irene\Personale\unibz\Thesis\Thesis-Repository>set GROQ_API_KEY=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
-
 C:\Users\irene\Personale\unibz\Thesis\Thesis-Repository>python dataset_analysis.py
-
-
-
-
 
 
  💻 This is a new chat with Ollama model meta-llama/llama-4-scout-17b-16e-instruct
